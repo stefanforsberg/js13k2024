@@ -3,7 +3,7 @@ const archiver = require('archiver');
 const path = require('path');
 
 // Define the output file path and the source directory
-const output = fs.createWriteStream(path.join(__dirname, "prod", 'prod.zip'));
+const output = fs.createWriteStream(path.join(__dirname, 'prod.zip'));
 const distDir = path.join(__dirname, 'prod');
 
 // Create a new archiver instance
