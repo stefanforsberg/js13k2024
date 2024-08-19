@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="./js/app.js"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(#00080c, #00202e);
+            cursor: auto;
+        }
+
+        #hud {
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: solid 3px rgba(0, 0, 0, 0.7);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 800px;
+            color: #ffd380;
+            height: 65px;
+            font-family: monospace;
+        }
+
+        #hud-container {
+            display: grid;
+            grid-template-columns: 80% 20%;
+            height: 100%;
+        }
+
+        #collection {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            column-gap: 2ch;
+            height: 100%;
+
+            & div {
+
+                height: 100%;
+                border: solid 1px hotpink;
+                font-size: 3em;
+                vertical-align: middle;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="hud">
+        <div id="hud-container">
+            <div id="collection">
+                <div id="collected-1"></div>
+                <div id="collected-2"></div>
+                <div id="collected-3"></div>
+                <div id="collected-4"></div>
+                <div id="collected-5"></div>
+                <div id="collected-6"></div>
+                <div id="collected-7"></div>
+            </div>
+            <div>
+                score: 2000
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
