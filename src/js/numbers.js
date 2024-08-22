@@ -7,6 +7,14 @@ export class Number {
         this.width = (50 * this.state.scaleFactor >> 0)
         this.height = this.width;
         this.alive = true;
+
+        this.colors = [
+            "138, 80, 143",
+            "255, 99, 97",
+            "255, 133, 49",
+            // "255, 166, 0",
+            // "255, 211, 128",
+        ]
         this.reset();
     }
 
@@ -15,6 +23,13 @@ export class Number {
         this.y = Math.random() >= 0.5 ? this.state.height + 100 : -100;
         this.dx = 100;
         this.dy = 100;
+
+        this.color = this.colors[(Math.random() * this.colors.length) >> 0]
+
+    }
+
+    getCenter() {
+        return [this.x + this.width / 2, this.y + this.height / 2]
     }
 
     update(deltaTime) {
@@ -37,20 +52,22 @@ export class Number {
 
     draw(ctx, elapsed) {
 
-        if (this.number === 13) {
-            ctx.strokeStyle = "#ff6361"
-            ctx.fillStyle = "#ff6361"
+        // if (this.number === 13) {
+        //     ctx.strokeStyle = "#ff6361"
+        //     ctx.fillStyle = "#ff6361"
 
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            ctx.fillStyle = "#121212"
+        //     ctx.fillRect(this.x, this.y, this.width, this.height);
+        //     ctx.fillStyle = "#121212"
 
-        } else {
-            ctx.strokeStyle = "#ff6361"
-            ctx.fillStyle = "#ff636100"
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            ctx.fillStyle = "#ff6361"
-            ctx.strokeRect(this.x, this.y, this.width, this.height)
-        }
+        // } else {
+
+        ctx.strokeStyle = `rgba(${this.color})`
+        ctx.fillStyle = `rgba(${this.color},0.1)`
+
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillStyle = `rgba(${this.color})`
+        ctx.strokeRect(this.x, this.y, this.width, this.height)
+        // }
 
         ctx.fillText(this.number, this.x + this.width / 2, this.y + this.height / 2 + 4);
 

@@ -6,33 +6,26 @@ export class RandomLines {
 
         this.state.eventEmitter.on('playerCollectedNumber', this.collected.bind(this));
 
-        this.colors = [
-            "0, 63, 92",
-            "44, 72, 117",
-            "138, 80, 143",
-            "188, 80, 144",
-            "255, 99, 97",
-        ]
     }
 
-    collected(sum, x, y) {
+    collected(item) {
 
-        let dx = -1 + 2 * Math.random();
-        let dy = -1 + 2 * Math.random();
+        console.log(item)
 
-        for (let i = 0; i < sum; i++) {
+        const [x, y] = item.getCenter();
+
+
+        for (let i = 0; i < item.number; i++) {
             let r = Math.random();
 
 
-            if (r < 0.25) this.lines.push([x, y, Math.random() * this.state.width, 0, Math.random(), this.colors[(Math.random() * this.colors.length) >> 0], dx, dy])
-            else if (r >= 0.25 && r < 0.5) this.lines.push([x, y, 0, Math.random() * this.state.height, Math.random(), this.colors[(Math.random() * this.colors.length) >> 0], dx, dy])
-            else if (r >= 0.5 && r < 0.75) this.lines.push([x, y, Math.random() * this.state.width, this.state.height, Math.random(), this.colors[(Math.random() * this.colors.length) >> 0], dx, dy])
-            else this.lines.push([x, y, this.state.width, Math.random() * this.state.height, Math.random(), this.colors[(Math.random() * this.colors.length) >> 0], dx, dy])
+            if (r < 0.25) this.lines.push([x, y, Math.random() * this.state.width, 0, Math.random() / 2, item.color])
+            else if (r >= 0.25 && r < 0.5) this.lines.push([x, y, 0, Math.random() * this.state.height, Math.random() / 2, item.color])
+            else if (r >= 0.5 && r < 0.75) this.lines.push([x, y, Math.random() * this.state.width, this.state.height, Math.random() / 2, item.color])
+            else this.lines.push([x, y, this.state.width, Math.random() * this.state.height, Math.random() / 2, item.color])
 
 
         }
-
-        console.log("collected", sum)
 
         // this.lines.push([x, y, Math.random() * this.state.width, 0, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
         // this.lines.push([x, y, 0, Math.random() * this.state.height, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
@@ -40,8 +33,6 @@ export class RandomLines {
         // this.lines.push([x, y, this.state.width, Math.random() * this.state.height, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
 
         // ;
-
-        console.log("drawing")
     }
 
     draw(ctx, elapsed) {
@@ -57,14 +48,11 @@ export class RandomLines {
 
             ctx.moveTo(l[0], l[1]);
 
-            ctx.lineWidth = 3
+            ctx.lineWidth = 1
 
             ctx.lineTo(l[2], l[3]);
 
             ctx.stroke();
-
-            l[0] += l[6]
-            l[1] += l[7]
 
             l[4] -= 0.003
         }

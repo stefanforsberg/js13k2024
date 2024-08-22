@@ -31,19 +31,24 @@ class Collector {
         this.sum = 13;
 
         this.state.collectors[0].innerText = ""
+        this.state.collectors[0].style.border = `solid 1px var(--score-border-color)`
         this.state.collectors[1].innerText = this.operator1
         this.state.collectors[2].innerText = ""
+        this.state.collectors[2].style.border = `solid 1px var(--score-border-color)`
         this.state.collectors[3].innerText = this.operator2
         this.state.collectors[4].innerText = ""
+        this.state.collectors[4].style.border = `solid 1px var(--score-border-color)`
         this.state.collectors[5].innerText = "<"
         this.state.collectors[6].innerText = this.sum
     }
 
-    addItem(number) {
-        console.log(this)
+    addItem(item) {
+        const number = item.number;
         console.log(number, this.index, this.state.collectors[this.index])
         this.collected.push(parseInt(number))
         this.state.collectors[this.index].innerText = number
+        this.state.collectors[this.index].style.color = `rgb(${item.color})`
+        this.state.collectors[this.index].style.border = `solid 1px rgb(${item.color})`
         this.index += 2;
 
         let sum = this.collected[0];
@@ -65,9 +70,18 @@ class Collector {
             }
         }
 
+        if (number === 13 || sum === 13) {
+            console.log("death!")
+
+            this.state.eventEmitter.emit("death")
+            return;
+        }
+
         if (this.collected.length === 3) {
             this.level1()
+            this.state.eventEmitter.emit("finishedLevel", sum)
             this.state.eventEmitter.emit("playerNewSum", 0)
+
         } else {
             this.state.eventEmitter.emit("playerNewSum", sum)
         }
@@ -78,7 +92,7 @@ class Collector {
 
 export class Game {
 
-    started = false;
+    started = true;
     prevTime = 0;
     items = [];
 
@@ -94,10 +108,26 @@ export class Game {
         this.score = 0;
 
         this.randomLines = new RandomLines(this.state)
+
+        this.state.eventEmitter.on('death', this.death.bind(this));
+        this.state.eventEmitter.on('finishedLevel', this.finishedLevel.bind(this));
+    }
+
+    death() {
+        this.state.gameOver.style.display = 'flex';
+        document.querySelector("body").style.cursor = "auto"
+
+        console.log("gane death")
+        this.started = false;
+    }
+
+    finishedLevel() {
+
     }
 
     setLevel() {
 
+        this.state.gameOver.style.display = 'none';
         document.querySelector("body").style.cursor = "none"
 
         this.collector = new Collector(this.state);
@@ -110,7 +140,6 @@ export class Game {
             this.items.push(new Number(this.state))
         }, 1500)
 
-        // this.state.ctx.scale(0.5, 0.5);
     }
 
     areRectanglesColliding(rect1, rect2) {
@@ -123,6 +152,8 @@ export class Game {
     }
 
     draw(timestamp) {
+
+        if (!this.started) return;
 
         let elapsed = timestamp - this.prevTime;
         this.prevTime = timestamp;
@@ -140,7 +171,7 @@ export class Game {
                     item.alive = false;
                     this.score += item.number
 
-                    this.state.eventEmitter.emit("playerCollectedNumber", item.number, item.x + item.width / 2, item.y + item.height / 2)
+                    this.state.eventEmitter.emit("playerCollectedNumber", item)
                     // const sum = this.collector.addItem(item.number)
                     // this.player.collected(sum)
                 }

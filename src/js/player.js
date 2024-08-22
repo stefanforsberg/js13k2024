@@ -54,14 +54,14 @@ export class Player {
 
         ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
 
-        ctx.shadowColor = '#ff8531';        // Color of the glow
+        ctx.shadowColor = '#ffd380';        // Color of the glow
         ctx.shadowBlur = 5;            // Blur level of the shadow to create the glow
         ctx.shadowOffsetX = 0;          // Horizontal offset of the shadow
         ctx.shadowOffsetY = 0;
 
         ctx.lineWidth = 3;
-        ctx.strokeStyle = "#ff8531"
-        ctx.fillStyle = "#ff8531"
+        ctx.strokeStyle = "#ffd380"
+        ctx.fillStyle = "#ffffff"
 
         ctx.stroke()
 
@@ -82,7 +82,7 @@ export class Player {
             alpha -= alphaDiff
 
             ctx.beginPath()
-            ctx.strokeStyle = `rgba(255, 133, 49, ${Math.max(0.1, alpha)})`
+            ctx.strokeStyle = `rgba(255, 211, 128, ${Math.max(0.1, alpha)})`
             ctx.rect(pp[0] - this.width / 2, pp[1] - this.height / 2, this.width, this.height);
             ctx.stroke()
 

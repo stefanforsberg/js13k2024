@@ -14,6 +14,7 @@ const load = () => {
         canvas,
         ctx,
         body: document.querySelector('body'),
+        gameOver: document.getElementById('game-over'),
         collectors: [
             document.getElementById('collected-1'),
             document.getElementById('collected-2'),

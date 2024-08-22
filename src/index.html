@@ -7,6 +7,10 @@
     <title>Document</title>
     <script type="module" src="./js/app.js"></script>
     <style>
+        :root {
+            --score-border-color: #343434;
+        }
+
         body,
         html {
             margin: 0;
@@ -23,8 +27,8 @@
             bottom: 0px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            border: solid 3px rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.9);
+            border: solid 3px rgba(0, 0, 0, 1);
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
             color: white;
@@ -49,15 +53,37 @@
             height: 100%;
 
             & div {
-
+                color: white;
                 height: 100%;
-                border: solid 1px hotpink;
+                border: solid 1px var(--score-border-color);
                 font-size: 3em;
                 vertical-align: middle;
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
+        }
+
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            border: solid 3px rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 80%;
+            height: 80%;
+            color: #ffd380;
+            font-family: monospace;
+            font-size: 5em;
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            display: none;
+
         }
     </style>
 </head>
@@ -80,6 +106,10 @@
                 score: 2000
             </div>
         </div>
+    </div>
+
+    <div id="game-over">
+        <div>GAME OVER</div>
     </div>
 </body>
 
