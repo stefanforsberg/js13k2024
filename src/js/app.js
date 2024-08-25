@@ -15,6 +15,7 @@ const load = () => {
         ctx,
         body: document.querySelector('body'),
         gameOver: document.getElementById('game-over'),
+        score: document.getElementById('score'),
         collectors: [
             document.getElementById('collected-1'),
             document.getElementById('collected-2'),

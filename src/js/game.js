@@ -9,11 +9,9 @@ class Collector {
         this.collected = []
 
         this.state.eventEmitter.on('playerCollectedNumber', this.addItem.bind(this));
-
-
     }
 
-    getOperator(odds = [0.5, 1, 1.5]) {
+    getOperator(odds = [0.75, 1, 1.5]) {
         const r = Math.random();
         console.log(r)
         if (r < odds[0]) return "+";
@@ -28,7 +26,7 @@ class Collector {
 
         this.operator1 = this.getOperator();
         this.operator2 = this.getOperator();
-        this.sum = 13;
+        this.operator3 = this.getOperator();
 
         this.state.collectors[0].innerText = ""
         this.state.collectors[0].style.border = `solid 1px var(--score-border-color)`
@@ -38,46 +36,86 @@ class Collector {
         this.state.collectors[3].innerText = this.operator2
         this.state.collectors[4].innerText = ""
         this.state.collectors[4].style.border = `solid 1px var(--score-border-color)`
-        this.state.collectors[5].innerText = "<"
-        this.state.collectors[6].innerText = this.sum
+        this.state.collectors[5].innerText = this.operator3
+        this.state.collectors[6].innerText = ""
+        this.state.collectors[6].style.border = `solid 1px var(--score-border-color)`
+
+    }
+
+    getHand(cards) {
+        cards.sort((a, b) => a - b);
+
+        const isStraight = (cards) => {
+            return cards[3] - cards[0] === 3 && new Set(cards).size === 4;
+        };
+
+        if (isStraight(cards)) {
+            return 75;
+        }
+
+        const freq = {};
+        for (const card of cards) {
+            freq[card] = (freq[card] || 0) + 1;
+        }
+
+        const frequencies = Object.values(freq).sort((a, b) => b - a);
+
+        if (frequencies[0] === 4) {
+            return 100;
+        } else if (frequencies[0] === 3) {
+            return 30;
+        } else if (frequencies[0] === 2 && frequencies[1] === 2) {
+            return 10;
+        } else if (frequencies[0] === 2) {
+            return 5;
+        } else {
+            return 1;
+        }
     }
 
     addItem(item) {
-        const number = item.number;
-        console.log(number, this.index, this.state.collectors[this.index])
-        this.collected.push(parseInt(number))
-        this.state.collectors[this.index].innerText = number
+        this.collected.push(item)
+        this.state.collectors[this.index].innerText = item.number
         this.state.collectors[this.index].style.color = `rgb(${item.color})`
         this.state.collectors[this.index].style.border = `solid 1px rgb(${item.color})`
         this.index += 2;
 
-        let sum = this.collected[0];
+        let sum = this.collected[0].number;
 
         for (let c = 1; c < this.collected.length; c++) {
             switch (this[`operator${c}`]) {
                 case "+":
-                    sum += this.collected[c];
+                    sum += this.collected[c].number;
                     break;
                 case "-":
-                    sum -= this.collected[c];
+                    sum -= this.collected[c].number;
                     break;
                 case "*":
-                    sum *= this.collected[c];
+                    sum *= this.collected[c].number;
                     break;
                 case "/":
-                    sum = Math.floor(sum / this.collected[c]);
+                    sum = Math.floor(sum / this.collected[c].number);
                     break;
             }
         }
 
-        if (number === 13 || sum === 13) {
+        if (item.number === 13 || sum === 13) {
             console.log("death!")
 
             this.state.eventEmitter.emit("death")
             return;
         }
 
-        if (this.collected.length === 3) {
+        if (this.collected.length === 4) {
+
+            const colors = new Set(this.collected.map(x => x.color));
+
+            sum = sum * this.getHand(this.collected.map(x => x.number))
+
+            if (colors.size === 1) {
+                sum = sum * 10;
+            }
+
             this.level1()
             this.state.eventEmitter.emit("finishedLevel", sum)
             this.state.eventEmitter.emit("playerNewSum", 0)
@@ -121,8 +159,10 @@ export class Game {
         this.started = false;
     }
 
-    finishedLevel() {
-
+    finishedLevel(score) {
+        console.log(this.score, score)
+        this.score += score;
+        this.state.score.innerText = `${this.score} (${score})`
     }
 
     setLevel() {
@@ -169,7 +209,6 @@ export class Game {
 
                 if (item.alive && this.areRectanglesColliding(item, this.player.getCollisionRect())) {
                     item.alive = false;
-                    this.score += item.number
 
                     this.state.eventEmitter.emit("playerCollectedNumber", item)
                     // const sum = this.collector.addItem(item.number)

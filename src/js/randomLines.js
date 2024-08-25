@@ -10,19 +10,21 @@ export class RandomLines {
 
     collected(item) {
 
-        console.log(item)
-
         const [x, y] = item.getCenter();
 
+        const angleIncrement = (2 * Math.PI) / item.number;
+
+        const alpha = 0.25 + Math.random() / 2;
 
         for (let i = 0; i < item.number; i++) {
             let r = Math.random();
 
+            const angle = i * angleIncrement;
+            const endX = x + Math.max(this.state.width, this.state.height) * Math.cos(angle);
+            const endY = y + Math.max(this.state.width, this.state.height) * Math.sin(angle);
 
-            if (r < 0.25) this.lines.push([x, y, Math.random() * this.state.width, 0, Math.random() / 2, item.color])
-            else if (r >= 0.25 && r < 0.5) this.lines.push([x, y, 0, Math.random() * this.state.height, Math.random() / 2, item.color])
-            else if (r >= 0.5 && r < 0.75) this.lines.push([x, y, Math.random() * this.state.width, this.state.height, Math.random() / 2, item.color])
-            else this.lines.push([x, y, this.state.width, Math.random() * this.state.height, Math.random() / 2, item.color])
+
+            this.lines.push([x, y, endX, endY, alpha, item.color])
 
 
         }
