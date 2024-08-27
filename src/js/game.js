@@ -100,10 +100,11 @@ class Collector {
         }
 
         if (item.number === 13 || sum === 13) {
-            console.log("death!")
+            this.level1()
+            // console.log("death!")
 
-            this.state.eventEmitter.emit("death")
-            return;
+            // this.state.eventEmitter.emit("death")
+            // return;
         }
 
         if (this.collected.length === 4) {
@@ -216,11 +217,11 @@ export class Game {
     }
 
     death() {
-        this.state.gameOver.style.display = 'flex';
-        document.querySelector("body").style.cursor = "auto"
+        // this.state.gameOver.style.display = 'flex';
+        // document.querySelector("body").style.cursor = "auto"
 
-        console.log("gane death")
-        this.started = false;
+        // console.log("gane death")
+        // this.started = false;
     }
 
     finishedLevel(score) {

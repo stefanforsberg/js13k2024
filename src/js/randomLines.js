@@ -14,30 +14,27 @@ export class RandomLines {
 
         const [x, y] = item.getCenter();
 
-        const angleIncrement = (2 * Math.PI) / item.number;
+        const lines = Math.max(2, item.number);
+
+
+        const angleIncrement = (2 * Math.PI) / lines;
 
         const alpha = 0.45;
 
         const startAngle = Math.random();
 
-        for (let i = 0; i < item.number; i++) {
+
+        for (let i = 0; i < lines; i++) {
 
             const angle = startAngle + i * angleIncrement;
             const endX = x + Math.max(this.state.width, this.state.height) * Math.cos(angle);
             const endY = y + Math.max(this.state.width, this.state.height) * Math.sin(angle);
 
 
-            this.lines.push([x, y, endX, endY, alpha, item.color])
+            this.lines.push([x, y, endX, endY, alpha, item.color, 1])
 
 
         }
-
-        // this.lines.push([x, y, Math.random() * this.state.width, 0, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
-        // this.lines.push([x, y, 0, Math.random() * this.state.height, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
-        // this.lines.push([x, y, Math.random() * this.state.width, this.state.height, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
-        // this.lines.push([x, y, this.state.width, Math.random() * this.state.height, 1, this.colors[(Math.random() * this.colors.length) >> 0]])
-
-        // ;
     }
 
     draw(ctx, elapsed) {
@@ -46,11 +43,24 @@ export class RandomLines {
 
         ctx.save();
 
-        ctx.lineWidth = 1;
+        ctx.shadowColor = "white"; // string
+
+        // Horizontal distance of the shadow, in relation to the text.
+        ctx.shadowOffsetX = 0; // integer
+
+        // Vertical distance of the shadow, in relation to the text.
+        ctx.shadowOffsetY = 0; // integer
+
+        // Blurring effect to the shadow, the larger the value, the greater the blur.
+        ctx.shadowBlur = 10; // integer
+
 
         for (const l of this.lines) {
 
             ctx.strokeStyle = `RGBA(${l[5]}, ${l[4]})`
+
+            ctx.lineWidth = l[6];
+
 
             ctx.beginPath();
 
@@ -63,6 +73,7 @@ export class RandomLines {
             ctx.stroke();
 
             l[4] -= 0.003
+            l[6] += 0.1;
         }
 
 

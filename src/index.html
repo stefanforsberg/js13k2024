@@ -20,6 +20,23 @@
             overflow: hidden;
             background: linear-gradient(#00080c, #00202e);
             cursor: auto;
+            font-family: monospace;
+
+        }
+
+        #score-container {
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            border: solid 3px rgba(0, 0, 0, 1);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            width: 200px;
+            color: #ffd380;
+            font-size: 3em;
+            text-align: center
         }
 
         #hud {
@@ -37,7 +54,6 @@
             width: 800px;
             color: #ffd380;
             height: 65px;
-            font-family: monospace;
         }
 
         #hud-container {
@@ -91,6 +107,12 @@
 <body>
     <canvas id="canvas"></canvas>
 
+    <div id="score-container">
+        <div id="score">
+            0
+        </div>
+    </div>
+
     <div id="hud">
         <div id="hud-container">
             <div id="collection">
@@ -102,9 +124,7 @@
                 <div id="collected-6"></div>
                 <div id="collected-7"></div>
             </div>
-            <div id="score">
-                0
-            </div>
+
         </div>
     </div>
 
