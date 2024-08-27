@@ -5,6 +5,8 @@ export class RandomLines {
         this.lines = []
 
         this.state.eventEmitter.on('playerCollectedNumber', this.collected.bind(this));
+        this.elapsed = 0;
+        this.lineWidth = 0;
 
     }
 
@@ -14,12 +16,13 @@ export class RandomLines {
 
         const angleIncrement = (2 * Math.PI) / item.number;
 
-        const alpha = 0.25 + Math.random() / 2;
+        const alpha = 0.45;
+
+        const startAngle = Math.random();
 
         for (let i = 0; i < item.number; i++) {
-            let r = Math.random();
 
-            const angle = i * angleIncrement;
+            const angle = startAngle + i * angleIncrement;
             const endX = x + Math.max(this.state.width, this.state.height) * Math.cos(angle);
             const endY = y + Math.max(this.state.width, this.state.height) * Math.sin(angle);
 
@@ -39,8 +42,11 @@ export class RandomLines {
 
     draw(ctx, elapsed) {
 
+        if (this.lines.length === 0) return;
+
         ctx.save();
 
+        ctx.lineWidth = 1;
 
         for (const l of this.lines) {
 
@@ -50,7 +56,7 @@ export class RandomLines {
 
             ctx.moveTo(l[0], l[1]);
 
-            ctx.lineWidth = 1
+
 
             ctx.lineTo(l[2], l[3]);
 
@@ -59,9 +65,11 @@ export class RandomLines {
             l[4] -= 0.003
         }
 
-        this.lines = this.lines.filter(x => x[4] > 0)
 
         ctx.restore();
+
+        this.lines = this.lines.filter(x => x[4] > 0)
+
 
 
     }

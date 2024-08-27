@@ -128,6 +128,70 @@ class Collector {
     }
 }
 
+class Score {
+    constructor(state, score, x, y) {
+        this.state = state;
+        this.pulseSize = 100 * (this.state.scaleFactor / 2) >> 0;
+        this.pulseDelta = [(this.pulseSize + this.pulseSize * 0.1) >> 0, (this.pulseSize - this.pulseSize * 0.1) >> 0];
+        this.glowAlpha = 1;
+        this.glowDirection = -0.05;
+        this.score = score;
+        this.x = x;
+        this.y = y;
+        this.dx = -1 + 2 * Math.random();
+        this.dy = -1 - Math.random();
+        this.alive = true;
+        this.pulseDirection = 0.5;
+        this.elapsed = 0;
+    }
+
+    update() {
+
+        this.x += this.dx;
+        this.y += this.dy;
+
+        this.pulseSize += this.pulseDirection;
+        if (this.pulseSize > this.pulseDelta[0] || this.pulseSize < this.pulseDelta[1]) {
+            this.pulseDirection *= -1;
+        }
+
+        if (this.fade) {
+            console.log(this.glowAlpha)
+            this.glowAlpha -= 0.05;
+            console.log(this.glowAlpha)
+
+
+            if (this.glowAlpha <= 0) {
+                this.alive = false;
+            }
+
+
+            return;
+        }
+
+        this.glowAlpha += this.glowDirection;
+
+        if (this.glowAlpha <= 0.5 || this.glowAlpha >= 1) {
+            this.glowDirection *= -1;
+        }
+
+
+    }
+
+    draw(ctx, elapsed) {
+
+        this.elapsed += elapsed
+
+        if (this.elapsed > 750 && !this.fade) {
+            this.fade = true;
+        }
+
+        ctx.font = `${this.pulseSize >> 0}px Arial`;
+        ctx.fillStyle = `rgba(255, 211, 128, ${this.glowAlpha})`;
+        ctx.fillText(this.score, this.x, this.y);
+    }
+}
+
 export class Game {
 
     started = true;
@@ -163,6 +227,8 @@ export class Game {
         console.log(this.score, score)
         this.score += score;
         this.state.score.innerText = `${this.score} (${score})`
+
+        this.items.push(new Score(this.state, score, this.player.x, this.player.y))
     }
 
     setLevel() {
@@ -225,10 +291,10 @@ export class Game {
 
         this.state.ctx.clearRect(0, 0, this.state.width, this.state.height)
 
-        this.randomLines.draw(this.state.ctx)
+        this.randomLines.draw(this.state.ctx, elapsed)
 
         for (const item of this.items) {
-            item.draw(this.state.ctx, elapsed,)
+            item.draw(this.state.ctx, elapsed)
         }
 
         this.player.draw(this.state.ctx);
