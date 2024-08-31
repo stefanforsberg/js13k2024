@@ -1,87 +1,87 @@
 export class RandomLines {
-    constructor(state) {
-        this.state = state;
+  constructor(state) {
+    this.state = state;
 
-        this.lines = []
+    this.lines = [];
 
-        this.state.eventEmitter.on('playerCollectedNumber', this.collected.bind(this));
-        this.elapsed = 0;
-        this.lineWidth = 0;
+    this.state.eventEmitter.on(
+      "playerCollectedNumber",
+      this.collected.bind(this)
+    );
+    this.elapsed = 0;
+    this.lineWidth = 0;
+  }
 
+  collected(item) {
+    const [x, y] = item.getCenter();
+
+    const lines = [];
+
+    const numberOfLines = Math.max(2, item.number);
+
+    const angleIncrement = (2 * Math.PI) / numberOfLines;
+
+    const alpha = 0.45;
+
+    const startAngle = Math.random();
+
+    for (let i = 0; i < numberOfLines; i++) {
+      const angle = startAngle + i * angleIncrement;
+      const endX =
+        Math.max(this.state.width, this.state.height) * Math.cos(angle);
+      const endY =
+        Math.max(this.state.width, this.state.height) * Math.sin(angle);
+
+      lines.push([
+        x,
+        y,
+        endX,
+        endY,
+        alpha,
+        item.color,
+        1,
+        Math.random(),
+        Math.random() > 0.5 ? 1 : -1,
+      ]);
     }
 
-    collected(item) {
+    this.lines.push(lines);
+  }
 
-        const [x, y] = item.getCenter();
+  draw(ctx, elapsed) {
+    if (this.lines.length === 0) return;
 
-        const lines = Math.max(2, item.number);
+    for (const lines of this.lines) {
+      ctx.save();
+      ctx.translate(lines[0][0], lines[0][1]);
+      ctx.rotate(lines[0][7]);
 
+      ctx.shadowColor = "white";
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.shadowBlur = 10;
 
-        const angleIncrement = (2 * Math.PI) / lines;
+      for (const l of lines) {
+        ctx.strokeStyle = `RGBA(${l[5]}, ${l[4]})`;
 
-        const alpha = 0.45;
+        ctx.lineWidth = l[6];
 
-        const startAngle = Math.random();
+        ctx.beginPath();
 
+        ctx.moveTo(0, 0);
 
-        for (let i = 0; i < lines; i++) {
+        ctx.lineTo(l[2], l[3]);
 
-            const angle = startAngle + i * angleIncrement;
-            const endX = x + Math.max(this.state.width, this.state.height) * Math.cos(angle);
-            const endY = y + Math.max(this.state.width, this.state.height) * Math.sin(angle);
+        ctx.stroke();
 
+        l[4] -= 0.006;
+        l[6] += 0.1;
+        l[7] += 0.002 * l[8];
+      }
 
-            this.lines.push([x, y, endX, endY, alpha, item.color, 1])
-
-
-        }
+      ctx.restore();
     }
 
-    draw(ctx, elapsed) {
-
-        if (this.lines.length === 0) return;
-
-        ctx.save();
-
-        ctx.shadowColor = "white"; // string
-
-        // Horizontal distance of the shadow, in relation to the text.
-        ctx.shadowOffsetX = 0; // integer
-
-        // Vertical distance of the shadow, in relation to the text.
-        ctx.shadowOffsetY = 0; // integer
-
-        // Blurring effect to the shadow, the larger the value, the greater the blur.
-        ctx.shadowBlur = 10; // integer
-
-
-        for (const l of this.lines) {
-
-            ctx.strokeStyle = `RGBA(${l[5]}, ${l[4]})`
-
-            ctx.lineWidth = l[6];
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(l[0], l[1]);
-
-
-
-            ctx.lineTo(l[2], l[3]);
-
-            ctx.stroke();
-
-            l[4] -= 0.003
-            l[6] += 0.1;
-        }
-
-
-        ctx.restore();
-
-        this.lines = this.lines.filter(x => x[4] > 0)
-
-
-
-    }
+    this.lines = this.lines.filter((x) => x[0][4] > 0);
+  }
 }
