@@ -36,7 +36,7 @@ const load = () => {
         state.width = ctx.canvas.width;
         state.height = ctx.canvas.height;
         state.scaleFactor = Math.min(ctx.canvas.width / 800, ctx.canvas.height / 600);
-        state.ctx.font = (40 * state.scaleFactor >> 0) + "px monospace";
+        state.ctx.font = (35 * state.scaleFactor >> 0) + "px monospace";
         state.ctx.textAlign = 'center'; // Center the text horizontally
         state.ctx.textBaseline = 'middle'; // Center the text vertically
     }

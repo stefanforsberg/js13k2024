@@ -52,7 +52,7 @@ class Collector {
     };
 
     if (isStraight(cards)) {
-      return 75;
+      return ["STRAIGHT", 75];
     }
 
     const freq = {};
@@ -63,15 +63,15 @@ class Collector {
     const frequencies = Object.values(freq).sort((a, b) => b - a);
 
     if (frequencies[0] === 4) {
-      return 100;
+      return ["FOAK", 100];
     } else if (frequencies[0] === 3) {
-      return 30;
+      return ["TOAK", 30];
     } else if (frequencies[0] === 2 && frequencies[1] === 2) {
-      return 10;
+      return ["TWO PAIR", 10];
     } else if (frequencies[0] === 2) {
-      return 5;
+      return ["PAIR", 10];
     } else {
-      return 1;
+      return ["", 1];
     }
   }
 
@@ -117,10 +117,17 @@ class Collector {
     if (this.collected.length === 4) {
       const colors = new Set(this.collected.map((x) => x.color));
 
-      sum = sum * this.getHand(this.collected.map((x) => x.number));
+      const hand = this.getHand(this.collected.map((x) => x.number));
+
+      if (hand[1] > 1) {
+        this.state.eventEmitter.emit("handBonus", hand[0]);
+      }
+
+      sum = sum * hand[1];
 
       if (colors.size === 1) {
         sum = sum * 10;
+        this.state.eventEmitter.emit("colorBonus");
       }
 
       this.level1();
@@ -133,20 +140,22 @@ class Collector {
 }
 
 class Score {
-  constructor(state, score, x, y) {
+  constructor(state, score, x, y, dx, dy, baseScale, color) {
     this.state = state;
-    this.pulseSize = (100 * (this.state.scaleFactor / 2)) >> 0;
+    this.color = color;
+    this.pulseSize = (100 * baseScale * (this.state.scaleFactor / 2)) >> 0;
     this.pulseDelta = [
       (this.pulseSize + this.pulseSize * 0.1) >> 0,
       (this.pulseSize - this.pulseSize * 0.1) >> 0,
     ];
+
     this.glowAlpha = 1;
     this.glowDirection = -0.05;
     this.score = score;
     this.x = x;
     this.y = y;
-    this.dx = -1 + 2 * Math.random();
-    this.dy = -1 - Math.random();
+    this.dx = dx;
+    this.dy = dy;
     this.alive = true;
     this.pulseDirection = 0.5;
     this.elapsed = 0;
@@ -188,9 +197,11 @@ class Score {
       this.fade = true;
     }
 
+    ctx.save();
     ctx.font = `${this.pulseSize >> 0}px Arial`;
-    ctx.fillStyle = `rgba(255, 211, 128, ${this.glowAlpha})`;
+    ctx.fillStyle = `rgba(${this.color}, ${this.glowAlpha})`;
     ctx.fillText(this.score, this.x, this.y);
+    ctx.restore()
   }
 }
 
@@ -216,6 +227,16 @@ export class Game {
 
     this.state.eventEmitter.on("death", this.death.bind(this));
     this.state.eventEmitter.on("finishedLevel", this.finishedLevel.bind(this));
+    this.state.eventEmitter.on("colorBonus", this.colorBonus.bind(this));
+    this.state.eventEmitter.on("handBonus", this.handBonus.bind(this));
+  }
+
+  colorBonus() {
+    this.items.push(new Score(this.state, "Color bonus!", this.player.x, this.player.y, -0.5, 0.5, 0.4, "255, 99, 97"));
+  }
+
+  handBonus(hand) {
+    this.items.push(new Score(this.state, hand, this.player.x, this.player.y, 0.5, 0.5, 0.4, "255, 211, 128"));
   }
 
   death() {
@@ -231,7 +252,7 @@ export class Game {
     this.score += score;
     this.state.score.innerText = `${this.score} (${score})`;
 
-    this.items.push(new Score(this.state, score, this.player.x, this.player.y));
+    this.items.push(new Score(this.state, score, this.player.x, this.player.y, 0, -0.5, 1, "255,255,255"));
   }
 
   setLevel() {
@@ -287,6 +308,7 @@ export class Game {
 
         if (
           item.alive &&
+          item.type === "number" &&
           this.areRectanglesColliding(item, this.player.getCollisionRect())
         ) {
           item.alive = false;

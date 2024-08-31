@@ -68,26 +68,8 @@ export class Player {
     ctx.save();
 
     ctx.translate(this.x, this.y);
-    // ctx.rotate(this.rot * Math.PI / 180);
-    // this.rot = this.rot + 1 % 360;
 
     ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-
-    // if (this.lives > 1) {
-    //   ctx.beginPath();
-    //   ctx.arc(this.x + this.width, this.y, 5, 0, 2 * Math.PI);
-    //   ctx.fill();
-    // }
-    // if (this.lives > 2) {
-    //   ctx.beginPath();
-    //   ctx.arc(this.x, this.y + this.height, 5, 0, 2 * Math.PI);
-    //   ctx.fill();
-    // }
-    // if (this.lives > 3) {
-    //   ctx.beginPath();
-    //   ctx.arc(this.x + this.width, this.y + this.height, 5, 0, 2 * Math.PI);
-    //   ctx.fill();
-    // }
 
     ctx.fillStyle = "#ffffff";
 
@@ -104,7 +86,7 @@ export class Player {
 
     const w2 = this.width / 2;
 
-    ctx.fillStyle = this.discarding ? "#80e8ff" : "#ff80ec";
+    ctx.fillStyle = "#7fffd6";
 
     if (this.lives > 0) {
       ctx.beginPath();
