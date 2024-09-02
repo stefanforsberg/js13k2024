@@ -19,7 +19,7 @@ export class Player {
       this.y = event.clientY;
     });
 
-    this.state.canvas.addEventListener("click", (event) => {
+    this.state.body.addEventListener("click", (event) => {
       if (this.discarding) {
         this.discarding = false;
       } else if (!this.discarding && this.discardLeft > 0) {
@@ -60,7 +60,6 @@ export class Player {
   }
 
   collected(sum) {
-    console.log("collected", sum);
     this.currentCollected = sum;
   }
 
@@ -73,7 +72,8 @@ export class Player {
 
     ctx.fillStyle = "#ffffff";
 
-    ctx.shadowColor = ctx.shadowBlur = 5;
+    ctx.shadowColor = "#ffffff"
+    ctx.shadowBlur = 15;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
 

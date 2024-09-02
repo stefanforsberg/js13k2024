@@ -18,11 +18,11 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background: linear-gradient(#00080c, #00202e);
+            background: linear-gradient(#053e5a 0%, #00080c 30%, #00202e);
             cursor: auto;
             font-family: monospace;
-
         }
+
 
         #score-container {
             position: absolute;
@@ -101,11 +101,22 @@
             display: none;
 
         }
+
+        #starField {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
 </head>
 
 <body>
+
+
+    <canvas id="starField"></canvas>
+
     <canvas id="canvas"></canvas>
+
 
     <div id="score-container">
         <div id="score">

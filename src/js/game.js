@@ -1,6 +1,7 @@
 import { Player } from "./player";
 import { Number } from "./numbers";
 import { RandomLines } from "./randomLines";
+import { StarField } from "./starField";
 
 class Collector {
   constructor(state) {
@@ -224,6 +225,7 @@ export class Game {
     this.score = 0;
 
     this.randomLines = new RandomLines(this.state);
+    this.startField = new StarField(this.state);
 
     this.state.eventEmitter.on("death", this.death.bind(this));
     this.state.eventEmitter.on("finishedLevel", this.finishedLevel.bind(this));
@@ -247,6 +249,7 @@ export class Game {
   }
 
   finishedLevel(score) {
+
     console.log("levelStarted", this.levelStarted);
     console.log(this.score, score);
     this.score += score;
@@ -303,6 +306,9 @@ export class Game {
     this.accumulatedTime += elapsedTime;
 
     while (this.accumulatedTime >= this.fixedTimeStep) {
+
+      this.startField.update();
+
       for (const item of this.items) {
         item.update(this.deltaTime);
 
@@ -316,6 +322,9 @@ export class Game {
           this.numberQueue.push(new Number(this.state));
 
           if (!this.player.discarding) {
+
+
+
             this.state.eventEmitter.emit("playerCollectedNumber", item);
           }
         }
@@ -343,6 +352,8 @@ export class Game {
     }
 
     this.state.ctx.clearRect(0, 0, this.state.width, this.state.height);
+
+    this.startField.draw(this.state.startfieldCtx);
 
     this.randomLines.draw(this.state.ctx, elapsed);
 

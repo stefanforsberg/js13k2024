@@ -102,8 +102,11 @@ export class Number {
     // } else {
 
     ctx.beginPath();
+    ctx.fillStyle = `rgba(${this.color},0.2)`;
     ctx.strokeStyle = `rgba(${this.color})`;
     ctx.strokeRect(this.x, this.y, this.width, this.height);
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
 
     if (this.bounces > 0) {
       ctx.beginPath();
