@@ -8,7 +8,7 @@ export class Player {
     this.height = (40 * this.state.scaleFactor) >> 0;
     this.rot = 0;
     this.color;
-    this.lives = 4;
+    this.lives = 1;
     this.currentCollected = 0;
     this.discarding = false;
     this.discardLeftValue = 2000;

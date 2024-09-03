@@ -19,6 +19,8 @@ const load = () => {
         ctx,
         body: document.querySelector('body'),
         gameOver: document.getElementById('game-over'),
+        gameStart: document.getElementById('game-start'),
+        gameLoading: document.getElementById('game-loading'),
         score: document.getElementById('score'),
         collectors: [
             document.getElementById('collected-1'),
@@ -36,8 +38,18 @@ const load = () => {
     }
 
     state.sounds.load(() => {
-        console.log("loaded!");
-        state.sounds.playSong(0)
+        state.gameLoading.style.display = 'none';
+        state.gameStart.style.display = 'block';
+
+
+    })
+
+    document.querySelector("#game-start a").addEventListener("click", () => {
+        const game = new Game(state);
+        game.setLevel();
+        state.gameStart.style.display = 'none';
+
+        requestAnimationFrame((ticks) => game.draw(ticks));
     })
 
 
@@ -60,10 +72,7 @@ const load = () => {
     resizeCanvas()
 
 
-    const game = new Game(state);
-    game.setLevel();
 
-    requestAnimationFrame((ticks) => game.draw(ticks));
 
 
 }

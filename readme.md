@@ -13,8 +13,8 @@ Todo:
 - [x] 13 will reset current run with no score (penalty?)
 - [x] Rotate random lines (one rotation per cluster)
 - [x] Show color and hand info when completing level
-- [ ] Track to complete level
-- [ ] Add time to complete level as bonus multiplier
+- [x] Track to complete level
+- [x] Add time to complete level as bonus multiplier
 - [x] Add click to create shield where you can "discard" numbers
   - [ ] After shield is used up, add some sort of cooldown on mouse
 - [x] Max 20 numbers on the screen at a time
@@ -25,5 +25,12 @@ Todo:
   - [ ] More color1/color2/color3
   - [ ] More 13
   - [ ] Increase multiplier of various hands
-- [ ] song
+- [x] song
 - [ ] sfx
+- [ ] better purple color for numbers
+- [ ] game over screen
+- [ ] loading
+- [x] start game button
+- [ ] how to play
+- [ ] high score
+  - [ ] highest combo

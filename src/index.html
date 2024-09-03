@@ -80,13 +80,13 @@
             }
         }
 
-        #game-over {
+        #game-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translateX(-50%) translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            border: solid 3px rgba(0, 0, 0, 0.8);
+            /* background-color: rgba(0, 0, 0, 0.7);
+            border: solid 3px rgba(0, 0, 0, 0.8); */
             color: white;
             padding: 10px;
             text-align: center;
@@ -98,8 +98,26 @@
             display: grid;
             justify-content: center;
             align-items: center;
+
+            & a,
+            a:active,
+            a:visited {
+                color: #ffd380;
+                text-decoration: none;
+
+            }
+        }
+
+        #game-start {
             display: none;
 
+            & div.instruction {
+                font-size: 16px;
+            }
+        }
+
+        #game-over {
+            display: none;
         }
 
         #starField {
@@ -139,8 +157,28 @@
         </div>
     </div>
 
-    <div id="game-over">
-        <div>GAME OVER</div>
+    <div id="game-overlay">
+
+        <div id="game-loading">
+            <a href="">
+                <div>LOADING...</div>
+            </a>
+        </div>
+
+        <div id="game-start">
+            <a href="#">
+                <div>START GAME</div>
+            </a>
+
+            <div class="instruction">
+
+                <h2>How to play</h2>
+            </div>
+        </div>
+
+        <div id="game-over">
+            <div>GAME OVER</div>
+        </div>
     </div>
 </body>
 

@@ -76,7 +76,7 @@ class Collector {
     }
   }
 
-  addItem(item) {
+  addItem(item, elapsed) {
     this.collected.push(item);
     this.state.collectors[this.index].innerText = item.number;
     this.state.collectors[this.index].style.color = `rgb(${item.color})`;
@@ -109,10 +109,6 @@ class Collector {
 
       this.level1();
 
-      // console.log("death!")
-
-      // this.state.eventEmitter.emit("death")
-      // return;
     }
 
     if (this.collected.length === 4) {
@@ -130,6 +126,21 @@ class Collector {
         sum = sum * 10;
         this.state.eventEmitter.emit("colorBonus");
       }
+
+      let timeBonus = 1;
+
+      if (elapsed < 7000) {
+        timeBonus = 2;
+      } else if (elapsed < 15000) {
+        timeBonus = 1.5;
+      }
+
+      if (timeBonus > 1) {
+        sum = sum * timeBonus;
+        this.state.eventEmitter.emit("timeBonus");
+      }
+
+
 
       this.level1();
       this.state.eventEmitter.emit("finishedLevel", sum);
@@ -231,26 +242,38 @@ export class Game {
     this.state.eventEmitter.on("finishedLevel", this.finishedLevel.bind(this));
     this.state.eventEmitter.on("colorBonus", this.colorBonus.bind(this));
     this.state.eventEmitter.on("handBonus", this.handBonus.bind(this));
+    this.state.eventEmitter.on("timeBonus", this.timeBonus.bind(this));
+
+    this.state.sounds.playSong(0)
   }
 
   colorBonus() {
-    this.items.push(new Score(this.state, "Color bonus!", this.player.x, this.player.y, -0.5, 0.5, 0.4, "255, 99, 97"));
+    this.items.push(new Score(this.state, "🎨", this.player.x, this.player.y, -0.5, 0, 0.4, "255, 99, 97"));
   }
 
   handBonus(hand) {
-    this.items.push(new Score(this.state, hand, this.player.x, this.player.y, 0.5, 0.5, 0.4, "255, 211, 128"));
+    this.items.push(new Score(this.state, hand, this.player.x, this.player.y, 0, 1, 0.6, "255, 211, 128"));
+  }
+
+  timeBonus() {
+    this.items.push(new Score(this.state, "⏱️", this.player.x, this.player.y, 0.5, 0, 0.4, "255, 211, 128"));
   }
 
   death() {
-    // this.state.gameOver.style.display = 'flex';
-    // document.querySelector("body").style.cursor = "auto"
-    // console.log("gane death")
-    // this.started = false;
+    this.state.gameOver.style.display = 'block';
+    document.querySelector("body").style.cursor = "auto"
+    console.log("gane death")
+
+    this.state.canvas.style.opacity = 0.1;
+    this.state.startfieldCanvas.style.opacity = 0.1;
+
+    this.started = false;
   }
 
   finishedLevel(score) {
 
-    console.log("levelStarted", this.levelStarted);
+    this.levelStarted = 0;
+
     console.log(this.score, score);
     this.score += score;
     this.state.score.innerText = `${this.score} (${score})`;
@@ -259,7 +282,7 @@ export class Game {
   }
 
   setLevel() {
-    this.levelStarted = 0;
+
 
     this.numberIntervalValue = 1000;
     this.numbersMax = 20;
@@ -325,7 +348,7 @@ export class Game {
 
 
 
-            this.state.eventEmitter.emit("playerCollectedNumber", item);
+            this.state.eventEmitter.emit("playerCollectedNumber", item, this.levelStarted);
           }
         }
       }
@@ -336,6 +359,9 @@ export class Game {
 
       this.accumulatedTime -= this.fixedTimeStep;
     }
+
+    if (!this.started) return;
+
 
     this.numberInterval -= this.fixedTimeStep;
 
@@ -362,6 +388,8 @@ export class Game {
     }
 
     this.player.draw(this.state.ctx);
+
+    console.log("drawing")
 
     requestAnimationFrame((ticks) => this.draw(ticks));
   }
