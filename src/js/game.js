@@ -17,18 +17,7 @@ class Collector {
           this.state.collectors[5].innerText = "+";
         },
         sum: () => {
-          switch (this.collected.length) {
-            case 0:
-              return 0;
-            case 1:
-              return this.collected[0].number;
-            case 2:
-              return this.collected[0].number + this.collected[1].number;
-            case 3:
-              return this.collected[0].number + this.collected[1].number + this.collected[2].number;
-            case 4:
-              return this.collected[0].number + this.collected[1].number + this.collected[2].number + this.collected[3].number;
-          }
+          return this.collected.slice(0, 4).reduce((p, c) => p + c.number, 0);
         },
         addItem: (item) => {
           this.collected.push(item);
@@ -44,23 +33,13 @@ class Collector {
           this.state.collectors[5].innerText = "-";
         },
         sum: () => {
-          switch (this.collected.length) {
-            case 0:
-              return 0;
-            case 1:
-              return this.collected[0].number;
-            case 2:
-              return this.collected[0].number + this.collected[1].number;
-            case 3:
-              return this.collected[0].number + this.collected[1].number + this.collected[2].number;
-            case 4:
-              return this.collected[0].number + this.collected[1].number + this.collected[2].number - this.collected[3].number;
-          }
+          console.log(this.collected.slice(0, 4).map(x => x.number))
+          return this.collected.slice(0, 4).reduce((p, c, i) => p + c.number * (i === 3 ? -1 : 1), 0);
         },
         addItem: (item) => {
           this.collected.push(item);
-          this.state.collectors[this.index].innerText = item.number;
-          this.state.collectors[this.index].style.color = `rgb(${item.color})`;
+          this.flashNumber(item, this.index)
+
           this.index += 2;
         }
       }
@@ -72,13 +51,17 @@ class Collector {
     );
   }
 
-  getOperator(odds = [0.75, 1, 1.5]) {
-    const r = Math.random();
-    console.log(r);
-    if (r < odds[0]) return "+";
-    else if (r >= odds[0] && r < odds[1]) return "-";
-    else if (r >= odds[1] && r < odds[2]) return "*";
-    else if (r >= odds[2]) return "/";
+  flashNumber(item, index) {
+    this.state.collectors[index].innerText = item.number;
+    this.state.collectors[index].style.color = `rgb(${item.color})`;
+
+    this.state.collectors[index].style.transition = 'background-color 0.3s ease';
+    this.state.collectors[index].style.backgroundColor = `rgb(${item.color})`;
+
+    setTimeout(() => {
+      this.state.collectors[index].style.transition = 'background-color 0.3s ease';
+      this.state.collectors[index].style.backgroundColor = "transparent";
+    }, 300);
   }
 
   level1() {

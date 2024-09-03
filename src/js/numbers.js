@@ -7,7 +7,7 @@ export class Number {
     this.width = (50 * this.state.scaleFactor) >> 0;
     this.height = this.width;
 
-    this.baseSpeed = 150;
+    this.baseSpeed = 100;
 
     this.type = "number";
 
@@ -92,14 +92,6 @@ export class Number {
   }
 
   draw(ctx, elapsed) {
-    // if (this.number === 13) {
-    //     ctx.strokeStyle = "#ff6361"
-    //     ctx.fillStyle = "#ff6361"
-
-    //     ctx.fillRect(this.x, this.y, this.width, this.height);
-    //     ctx.fillStyle = "#121212"
-
-    // } else {
 
     ctx.beginPath();
     ctx.fillStyle = `rgba(${this.color},0.2)`;
