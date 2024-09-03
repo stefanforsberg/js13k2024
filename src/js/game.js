@@ -9,6 +9,63 @@ class Collector {
     this.index = 0;
     this.collected = [];
 
+    this.types = {
+      "+++": {
+        display: () => {
+          this.state.collectors[1].innerText = "+";
+          this.state.collectors[3].innerText = "+";
+          this.state.collectors[5].innerText = "+";
+        },
+        sum: () => {
+          switch (this.collected.length) {
+            case 0:
+              return 0;
+            case 1:
+              return this.collected[0].number;
+            case 2:
+              return this.collected[0].number + this.collected[1].number;
+            case 3:
+              return this.collected[0].number + this.collected[1].number + this.collected[2].number;
+            case 4:
+              return this.collected[0].number + this.collected[1].number + this.collected[2].number + this.collected[3].number;
+          }
+        },
+        addItem: (item) => {
+          this.collected.push(item);
+          this.state.collectors[this.index].innerText = item.number;
+          this.state.collectors[this.index].style.color = `rgb(${item.color})`;
+          this.index += 2;
+        }
+      },
+      "++-": {
+        display: () => {
+          this.state.collectors[1].innerText = "+";
+          this.state.collectors[3].innerText = "+";
+          this.state.collectors[5].innerText = "-";
+        },
+        sum: () => {
+          switch (this.collected.length) {
+            case 0:
+              return 0;
+            case 1:
+              return this.collected[0].number;
+            case 2:
+              return this.collected[0].number + this.collected[1].number;
+            case 3:
+              return this.collected[0].number + this.collected[1].number + this.collected[2].number;
+            case 4:
+              return this.collected[0].number + this.collected[1].number + this.collected[2].number - this.collected[3].number;
+          }
+        },
+        addItem: (item) => {
+          this.collected.push(item);
+          this.state.collectors[this.index].innerText = item.number;
+          this.state.collectors[this.index].style.color = `rgb(${item.color})`;
+          this.index += 2;
+        }
+      }
+    }
+
     this.state.eventEmitter.on(
       "playerCollectedNumber",
       this.addItem.bind(this)
@@ -27,22 +84,14 @@ class Collector {
   level1() {
     this.index = 0;
     this.collected = [];
+    this.currentType = "++-";
 
-    this.operator1 = this.getOperator();
-    this.operator2 = this.getOperator();
-    this.operator3 = this.getOperator();
+    for (const collector of this.state.collectors) {
+      collector.innerText = "";
+      collector.style.border = `solid 1px var(--score-border-color)`;
+    }
 
-    this.state.collectors[0].innerText = "";
-    this.state.collectors[0].style.border = `solid 1px var(--score-border-color)`;
-    this.state.collectors[1].innerText = this.operator1;
-    this.state.collectors[2].innerText = "";
-    this.state.collectors[2].style.border = `solid 1px var(--score-border-color)`;
-    this.state.collectors[3].innerText = this.operator2;
-    this.state.collectors[4].innerText = "";
-    this.state.collectors[4].style.border = `solid 1px var(--score-border-color)`;
-    this.state.collectors[5].innerText = this.operator3;
-    this.state.collectors[6].innerText = "";
-    this.state.collectors[6].style.border = `solid 1px var(--score-border-color)`;
+    this.types[this.currentType].display();
   }
 
   getHand(cards) {
@@ -77,32 +126,10 @@ class Collector {
   }
 
   addItem(item, elapsed) {
-    this.collected.push(item);
-    this.state.collectors[this.index].innerText = item.number;
-    this.state.collectors[this.index].style.color = `rgb(${item.color})`;
-    this.state.collectors[
-      this.index
-    ].style.border = `solid 1px rgb(${item.color})`;
-    this.index += 2;
 
-    let sum = this.collected[0].number;
+    this.types[this.currentType].addItem(item);
 
-    for (let c = 1; c < this.collected.length; c++) {
-      switch (this[`operator${c}`]) {
-        case "+":
-          sum += this.collected[c].number;
-          break;
-        case "-":
-          sum -= this.collected[c].number;
-          break;
-        case "*":
-          sum *= this.collected[c].number;
-          break;
-        case "/":
-          sum = Math.floor(sum / this.collected[c].number);
-          break;
-      }
-    }
+    let sum = this.types[this.currentType].sum();
 
     if (item.number === 13 || sum === 13) {
       this.state.eventEmitter.emit("thirteen");
@@ -140,7 +167,7 @@ class Collector {
         this.state.eventEmitter.emit("timeBonus");
       }
 
-
+      sum = sum >> 0;
 
       this.level1();
       this.state.eventEmitter.emit("finishedLevel", sum);
@@ -388,8 +415,6 @@ export class Game {
     }
 
     this.player.draw(this.state.ctx);
-
-    console.log("drawing")
 
     requestAnimationFrame((ticks) => this.draw(ticks));
   }
