@@ -13,8 +13,11 @@ class Collector {
       "+++": {
         display: () => {
           this.state.collectors[1].innerText = "+";
+          this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
           this.state.collectors[3].innerText = "+";
+          this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
           this.state.collectors[5].innerText = "+";
+          this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
         },
         sum: () => {
           return this.collected.slice(0, 4).reduce((p, c) => p + c.number, 0);
@@ -29,8 +32,11 @@ class Collector {
       "++-": {
         display: () => {
           this.state.collectors[1].innerText = "+";
+          this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
           this.state.collectors[3].innerText = "+";
+          this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
           this.state.collectors[5].innerText = "-";
+          this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
         },
         sum: () => {
           console.log(this.collected.slice(0, 4).map(x => x.number))
@@ -53,15 +59,15 @@ class Collector {
 
   flashNumber(item, index) {
     this.state.collectors[index].innerText = item.number;
-    this.state.collectors[index].style.color = `rgb(${item.color})`;
+    this.state.collectors[index].style.color = "var(--main-black)";
 
     this.state.collectors[index].style.transition = 'background-color 0.3s ease';
     this.state.collectors[index].style.backgroundColor = `rgb(${item.color})`;
 
-    setTimeout(() => {
-      this.state.collectors[index].style.transition = 'background-color 0.3s ease';
-      this.state.collectors[index].style.backgroundColor = "transparent";
-    }, 300);
+    // setTimeout(() => {
+    //   this.state.collectors[index].style.transition = 'background-color 0.3s ease';
+    //   this.state.collectors[index].style.backgroundColor = "transparent";
+    // }, 300);
   }
 
   level1() {
@@ -72,6 +78,7 @@ class Collector {
     for (const collector of this.state.collectors) {
       collector.innerText = "";
       collector.style.border = `solid 1px var(--score-border-color)`;
+      collector.style.backgroundColor = "var(--main-light)";
     }
 
     this.types[this.currentType].display();

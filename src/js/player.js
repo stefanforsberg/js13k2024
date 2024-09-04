@@ -72,13 +72,13 @@ export class Player {
 
     ctx.fillStyle = "#ffffff";
 
-    ctx.shadowColor = "#ffffff"
-    ctx.shadowBlur = 15;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
+    // ctx.shadowColor = "#ffffff"
+    // ctx.shadowBlur = 15;
+    // ctx.shadowOffsetX = 0;
+    // ctx.shadowOffsetY = 0;
 
     ctx.lineWidth = 3;
-    ctx.strokeStyle = this.discarding ? "#80e8ff" : "#ff80ec";
+    ctx.strokeStyle = this.discarding ? "#80e8ff" : "#FFD644";
 
     ctx.stroke();
 

@@ -18,8 +18,8 @@ export class StarField {
             y: Math.random() * this.state.height,
             radius: 0.5 + Math.random() * 3,
             alpha: Math.min(0.5, Math.random()),
-            vx: 0.5 * ((Math.random() - 0.5) * 0.5),
-            vy: 0.5 * ((Math.random() - 0.5) * 0.5),
+            vx: 0.1 * ((Math.random() - 0.5) * 0.5),
+            vy: 0.1 * ((Math.random() - 0.5) * 0.5),
             rx: Math.random() > 0.5 ? 1 : -1
         };
     }
@@ -41,9 +41,9 @@ export class StarField {
             if (star.alpha < 0) star.alpha = 0;
             if (star.alpha > 1) star.alpha = 1;
 
-            star.radius += star.rx * 0.01;
+            star.radius += star.rx * 0.005;
 
-            if (star.radius < 0.5 || star.radius > 10) star.rx *= -1;
+            if (star.radius < 0.5 || star.radius > 5) star.rx *= -1;
 
         });
 

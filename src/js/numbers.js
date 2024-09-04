@@ -11,7 +11,7 @@ export class Number {
 
     this.type = "number";
 
-    this.colors = ["138, 80, 143", "255, 99, 97", "255, 133, 49"];
+    this.colors = ["255, 61, 109", "253, 140, 44", "60, 252, 140"];
     this.reset();
   }
 
@@ -93,44 +93,44 @@ export class Number {
 
   draw(ctx, elapsed) {
 
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(${this.color},0.2)`;
+    ctx.fillStyle = `rgba(${this.color})`;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
     ctx.strokeStyle = `rgba(${this.color})`;
     ctx.strokeRect(this.x, this.y, this.width, this.height);
-    ctx.fillRect(this.x, this.y, this.width, this.height);
 
 
     if (this.bounces > 0) {
       ctx.beginPath();
-      ctx.fillStyle = `rgba(${this.color})`;
+      ctx.fillStyle = `#1D1C18`;
 
-      ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x + 8, this.y + 8, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
     if (this.bounces > 1) {
       ctx.beginPath();
-      ctx.fillStyle = `rgba(${this.color})`;
+      ctx.fillStyle = `#1D1C18`;
 
-      ctx.arc(this.x + this.width, this.y, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x + this.width - 8, this.y + 8, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
     if (this.bounces > 2) {
       ctx.beginPath();
-      ctx.fillStyle = `rgba(${this.color})`;
+      ctx.fillStyle = `#1D1C18`;
 
-      ctx.arc(this.x, this.y + this.height, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x + 8, this.y + this.height - 8, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
     if (this.bounces > 3) {
       ctx.beginPath();
-      ctx.fillStyle = `rgba(${this.color})`;
+      ctx.fillStyle = `#1D1C18`;
 
-      ctx.arc(this.x + this.width, this.y + this.height, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x + this.width - 8, this.y + this.height - 8, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
 
     ctx.beginPath();
-    ctx.fillStyle = `rgba(${this.color})`;
+    ctx.fillStyle = "#1D1C18";
 
     ctx.fillText(
       this.number,

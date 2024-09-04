@@ -8,7 +8,10 @@
     <script type="module" src="./js/app.js"></script>
     <style>
         :root {
-            --score-border-color: #343434;
+            --score-border-color: #1D1C18;
+            --main-yellow: #FFD644;
+            --main-black: #1D1C18;
+            --main-light: #E5E3D7;
         }
 
         body,
@@ -18,7 +21,8 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background: linear-gradient(#053e5a 0%, #00080c 30%, #00202e);
+            background-color: var(--main-black);
+            /* background: linear-gradient(#053e5a 0%, #00080c 30%, #00202e); */
             cursor: auto;
             font-family: monospace;
         }
@@ -29,12 +33,11 @@
             top: 0px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.9);
-            border: solid 3px rgba(0, 0, 0, 1);
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
+
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
             width: 200px;
-            color: #ffd380;
+            color: var(--main-yellow);
             font-size: 3em;
             text-align: center
         }
@@ -44,15 +47,14 @@
             bottom: 0px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.9);
-            border: solid 3px rgba(0, 0, 0, 1);
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+            background-color: var(--main-light);
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
             color: white;
             padding: 10px;
             text-align: center;
-            width: 800px;
-            color: #ffd380;
+            width: 600px;
+            color: var(--main-yellow);
             height: 65px;
         }
 
@@ -67,7 +69,7 @@
             height: 100%;
 
             & div {
-                color: white;
+                color: var(--main-black);
                 height: 100%;
                 border: solid 1px var(--score-border-color);
                 font-size: 3em;
@@ -88,7 +90,7 @@
             text-align: center;
             width: 80%;
             height: 80%;
-            color: #ffd380;
+            color: var(--main-yellow);
             font-family: monospace;
             font-size: 5em;
             display: grid;
@@ -98,7 +100,7 @@
             & a,
             a:active,
             a:visited {
-                color: #ffd380;
+                color: var(--main-yellow);
                 text-decoration: none;
 
             }
@@ -121,15 +123,21 @@
             top: 0;
             left: 0;
         }
+
+        #canvas {
+            z-index: 1;
+        }
     </style>
 </head>
 
 <body>
 
-
     <canvas id="starField"></canvas>
 
     <canvas id="canvas"></canvas>
+
+
+
 
 
     <div id="score-container">
