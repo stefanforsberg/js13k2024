@@ -1,7 +1,8 @@
 export class StarField {
 
     stars = [];
-    numStars = 300;
+    numStars = 200;
+    shootingStars = []
 
     constructor(state) {
         this.state = state;
@@ -17,7 +18,7 @@ export class StarField {
             x: Math.random() * this.state.width,
             y: Math.random() * this.state.height,
             radius: 0.5 + Math.random() * 3,
-            alpha: Math.min(0.5, Math.random()),
+            alpha: Math.random(),
             vx: 0.1 * ((Math.random() - 0.5) * 0.5),
             vy: 0.1 * ((Math.random() - 0.5) * 0.5),
             rx: Math.random() > 0.5 ? 1 : -1
@@ -47,6 +48,37 @@ export class StarField {
 
         });
 
+        if (this.shootingStars.length === 0) {
+            const start = this.stars[Math.floor(Math.random() * this.stars.length)]
+            const end = this.stars[Math.floor(Math.random() * this.stars.length)]
+
+            const duration = 10;
+            const fps = 60;
+
+            const totalTimeInUpdates = duration * fps;
+            const deltaX = (end.x - start.x) / totalTimeInUpdates;
+            const deltaY = (end.y - start.y) / totalTimeInUpdates;
+
+            this.shootingStars.push(start.x)
+            this.shootingStars.push(start.y)
+            this.shootingStars.push(end.x)
+            this.shootingStars.push(end.y)
+            this.shootingStars.push(deltaX)
+            this.shootingStars.push(deltaY)
+        } else {
+            if (this.shootingStars.length > 0) {
+                this.shootingStars[0] += this.shootingStars[4]
+                this.shootingStars[1] += this.shootingStars[5]
+
+                const dx = this.shootingStars[0] - this.shootingStars[2];
+                const dy = this.shootingStars[1] - this.shootingStars[3];
+
+                if (Math.sqrt(dx + dy) < 2) {
+                    this.shootingStars = []
+                }
+            }
+        }
+
     }
 
     draw(ctx) {
@@ -54,16 +86,25 @@ export class StarField {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.shadowColor = "#ffffff"
-        ctx.shadowBlur = 3;
+        ctx.shadowBlur = 30;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
 
         this.stars.forEach(star => {
             ctx.beginPath();
             ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(0.3, star.alpha)})`;
             ctx.fill();
         })
+
+        if (this.shootingStars.length > 0) {
+            ctx.beginPath();
+            ctx.arc(this.shootingStars[0], this.shootingStars[1], 3, 0, Math.PI * 2);
+            ctx.fillStyle = "#FFD64477";
+            ctx.fill();
+        }
+
+
 
     }
 

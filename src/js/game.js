@@ -39,7 +39,6 @@ class Collector {
           this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
         },
         sum: () => {
-          console.log(this.collected.slice(0, 4).map(x => x.number))
           return this.collected.slice(0, 4).reduce((p, c, i) => p + c.number * (i === 3 ? -1 : 1), 0);
         },
         addItem: (item) => {
@@ -48,7 +47,83 @@ class Collector {
 
           this.index += 2;
         }
-      }
+      },
+      ">": {
+        display: () => {
+          this.state.collectors[1].innerText = "";
+          this.state.collectors[1].style.backgroundColor = "var(--main-black)";
+          this.state.collectors[3].innerText = ">";
+          this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+          this.state.collectors[5].innerText = "";
+          this.state.collectors[5].style.backgroundColor = "var(--main-black)";
+        },
+        sum: () => {
+
+          if (this.collected.length < 4) return 0;
+
+          const a = parseInt(`${this.collected[0].number}${this.collected[1].number}`)
+          const b = parseInt(`${this.collected[2].number}${this.collected[3].number}`)
+
+          return (a > b) ? a : 0;
+        },
+        addItem: (item) => {
+          this.collected.push(item);
+          this.flashNumber(item, this.index)
+
+          this.index += 2;
+        }
+      },
+      "<": {
+        display: () => {
+          this.state.collectors[1].innerText = "";
+          this.state.collectors[1].style.backgroundColor = "var(--main-black)";
+          this.state.collectors[3].innerText = "<";
+          this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+          this.state.collectors[5].innerText = "";
+          this.state.collectors[5].style.backgroundColor = "var(--main-black)";
+        },
+        sum: () => {
+
+          if (this.collected.length < 4) return 0;
+
+          const a = parseInt(`${this.collected[0].number}${this.collected[1].number}`)
+          const b = parseInt(`${this.collected[2].number}${this.collected[3].number}`)
+
+          return (a < b) ? b : 0;
+        },
+        addItem: (item) => {
+          this.collected.push(item);
+          this.flashNumber(item, this.index)
+
+          this.index += 2;
+        }
+      },
+      ">>>": {
+        display: () => {
+          this.state.collectors[1].innerText = ">";
+          this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
+          this.state.collectors[3].innerText = ">";
+          this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+          this.state.collectors[5].innerText = ">";
+          this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
+        },
+        sum: () => {
+
+          if (this.collected.length < 4) return 0;
+
+          if (this.collected[0].number > this.collected[1].number && this.collected[1].number > this.collected[2].number && this.collected[2].number > this.collected[3].number) {
+            return this.collected[0].number * this.collected[1].number
+          }
+
+          return 0;
+        },
+        addItem: (item) => {
+          this.collected.push(item);
+          this.flashNumber(item, this.index)
+
+          this.index += 2;
+        }
+      },
     }
 
     this.state.eventEmitter.on(
@@ -63,17 +138,12 @@ class Collector {
 
     this.state.collectors[index].style.transition = 'background-color 0.3s ease';
     this.state.collectors[index].style.backgroundColor = `rgb(${item.color})`;
-
-    // setTimeout(() => {
-    //   this.state.collectors[index].style.transition = 'background-color 0.3s ease';
-    //   this.state.collectors[index].style.backgroundColor = "transparent";
-    // }, 300);
   }
 
   level1() {
     this.index = 0;
     this.collected = [];
-    this.currentType = "++-";
+    this.currentType = ">>>";
 
     for (const collector of this.state.collectors) {
       collector.innerText = "";
