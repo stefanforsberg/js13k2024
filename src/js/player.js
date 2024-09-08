@@ -13,6 +13,8 @@ export class Player {
     this.discarding = false;
     this.discardLeftValue = 2000;
     this.discardLeft = this.discardLeftValue;
+    this.canUseDiscard = true;
+    this.canUseDiscardLeftValue = 0;
 
     this.state.body.addEventListener("mousemove", (event) => {
       this.x = event.clientX;
@@ -20,9 +22,17 @@ export class Player {
     });
 
     this.state.body.addEventListener("click", (event) => {
+      console.log(state.game, state.game.started);
+      if (!state.game || !state.game.started) return;
+
       if (this.discarding) {
         this.discarding = false;
-      } else if (!this.discarding && this.discardLeft > 0) {
+      } else if (
+        !this.discarding &&
+        this.discardLeft > 0 &&
+        this.canUseDiscard
+      ) {
+        this.discardLeft = this.discardLeftValue;
         this.discarding = true;
       }
     });
@@ -47,7 +57,16 @@ export class Player {
 
     if (this.discardLeft < 0) {
       this.discarding = false;
-      this.discardLeft = this.discardLeftValue;
+      this.canUseDiscard = false;
+      this.discardLeft = 0;
+    } else if (!this.canUseDiscard) {
+      this.canUseDiscardLeftValue += elapsed * 500;
+
+      if (this.canUseDiscardLeftValue >= this.discardLeftValue) {
+        this.canUseDiscard = true;
+        this.canUseDiscardLeftValue = 0;
+        this.discardLeft = this.discardLeftValue;
+      }
     }
   }
 
@@ -71,11 +90,6 @@ export class Player {
     ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
 
     ctx.fillStyle = "#ffffff";
-
-    // ctx.shadowColor = "#ffffff"
-    // ctx.shadowBlur = 15;
-    // ctx.shadowOffsetX = 0;
-    // ctx.shadowOffsetY = 0;
 
     ctx.lineWidth = 3;
     ctx.strokeStyle = this.discarding ? "#80e8ff" : "#FFD644";
@@ -113,21 +127,20 @@ export class Player {
       ctx.closePath();
     }
 
-    if (this.discarding) {
+    if (this.canUseDiscard) {
       ctx.beginPath();
+      ctx.lineWidth = 1;
       ctx.fillStyle = "#80e8ff45";
-
-      const discardHeight =
-        this.height * (this.discardLeft / this.discardLeftValue);
+      ctx.strokeStyle = "#80e8ff";
 
       ctx.fillRect(
         -this.width / 2,
-        -this.height / 2,
-        this.width,
-        discardHeight
+        10 + this.height / 2,
+        this.width * (this.discardLeft / this.discardLeftValue),
+        10
       );
 
-      ctx.closePath();
+      ctx.strokeRect(-this.width / 2, 10 + this.height / 2, this.width, 10);
     }
 
     ctx.fillStyle = "#ffffff";
@@ -135,25 +148,5 @@ export class Player {
     ctx.fillText(this.currentCollected, 0, 1);
 
     ctx.restore();
-
-    // const alphaDiff = 1 / this.previousPositions.length;
-    // let alpha = 1;
-
-    // for (let i = this.previousPositions.length - 1; i >= 0; i--) {
-    //   const pp = this.previousPositions[i];
-    //   alpha -= alphaDiff;
-
-    //   ctx.beginPath();
-    //   ctx.strokeStyle = `rgba(255, 211, 128, ${Math.max(0.1, alpha)})`;
-    //   ctx.rect(
-    //     pp[0] - this.width / 2,
-    //     pp[1] - this.height / 2,
-    //     this.width,
-    //     this.height
-    //   );
-    //   ctx.stroke();
-    // }
-
-    // this.previousPositions.push([this.x, this.y]);
   }
 }

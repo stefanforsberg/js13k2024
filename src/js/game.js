@@ -24,10 +24,9 @@ class Collector {
         },
         addItem: (item) => {
           this.collected.push(item);
-          this.state.collectors[this.index].innerText = item.number;
-          this.state.collectors[this.index].style.color = `rgb(${item.color})`;
+          this.flashNumber(item, this.index);
           this.index += 2;
-        }
+        },
       },
       "++-": {
         display: () => {
@@ -39,14 +38,16 @@ class Collector {
           this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
         },
         sum: () => {
-          return this.collected.slice(0, 4).reduce((p, c, i) => p + c.number * (i === 3 ? -1 : 1), 0);
+          return this.collected
+            .slice(0, 4)
+            .reduce((p, c, i) => p + c.number * (i === 3 ? -1 : 1), 0);
         },
         addItem: (item) => {
           this.collected.push(item);
-          this.flashNumber(item, this.index)
+          this.flashNumber(item, this.index);
 
           this.index += 2;
-        }
+        },
       },
       ">": {
         display: () => {
@@ -58,20 +59,23 @@ class Collector {
           this.state.collectors[5].style.backgroundColor = "var(--main-black)";
         },
         sum: () => {
-
           if (this.collected.length < 4) return 0;
 
-          const a = parseInt(`${this.collected[0].number}${this.collected[1].number}`)
-          const b = parseInt(`${this.collected[2].number}${this.collected[3].number}`)
+          const a = parseInt(
+            `${this.collected[0].number}${this.collected[1].number}`
+          );
+          const b = parseInt(
+            `${this.collected[2].number}${this.collected[3].number}`
+          );
 
-          return (a > b) ? a : 0;
+          return a > b ? a - b : 0;
         },
         addItem: (item) => {
           this.collected.push(item);
-          this.flashNumber(item, this.index)
+          this.flashNumber(item, this.index);
 
           this.index += 2;
-        }
+        },
       },
       "<": {
         display: () => {
@@ -83,20 +87,23 @@ class Collector {
           this.state.collectors[5].style.backgroundColor = "var(--main-black)";
         },
         sum: () => {
-
           if (this.collected.length < 4) return 0;
 
-          const a = parseInt(`${this.collected[0].number}${this.collected[1].number}`)
-          const b = parseInt(`${this.collected[2].number}${this.collected[3].number}`)
+          const a = parseInt(
+            `${this.collected[0].number}${this.collected[1].number}`
+          );
+          const b = parseInt(
+            `${this.collected[2].number}${this.collected[3].number}`
+          );
 
-          return (a < b) ? b : 0;
+          return a < b ? b - a : 0;
         },
         addItem: (item) => {
           this.collected.push(item);
-          this.flashNumber(item, this.index)
+          this.flashNumber(item, this.index);
 
           this.index += 2;
-        }
+        },
       },
       ">>>": {
         display: () => {
@@ -108,23 +115,28 @@ class Collector {
           this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
         },
         sum: () => {
-
           if (this.collected.length < 4) return 0;
 
-          if (this.collected[0].number > this.collected[1].number && this.collected[1].number > this.collected[2].number && this.collected[2].number > this.collected[3].number) {
-            return this.collected[0].number * this.collected[1].number
+          if (
+            this.collected[0].number > this.collected[1].number &&
+            this.collected[1].number > this.collected[2].number &&
+            this.collected[2].number > this.collected[3].number
+          ) {
+            return this.collected[0].number * this.collected[1].number;
           }
 
           return 0;
         },
         addItem: (item) => {
           this.collected.push(item);
-          this.flashNumber(item, this.index)
+          this.flashNumber(item, this.index);
 
           this.index += 2;
-        }
+        },
       },
-    }
+    };
+
+    this.typeKeys = Object.keys(this.types);
 
     this.state.eventEmitter.on(
       "playerCollectedNumber",
@@ -136,14 +148,17 @@ class Collector {
     this.state.collectors[index].innerText = item.number;
     this.state.collectors[index].style.color = "var(--main-black)";
 
-    this.state.collectors[index].style.transition = 'background-color 0.3s ease';
+    this.state.collectors[index].style.transition =
+      "background-color 0.3s ease";
     this.state.collectors[index].style.backgroundColor = `rgb(${item.color})`;
   }
 
   level1() {
     this.index = 0;
     this.collected = [];
-    this.currentType = ">>>";
+
+    this.currentType =
+      this.typeKeys[Math.floor(Math.random() * this.typeKeys.length)];
 
     for (const collector of this.state.collectors) {
       collector.innerText = "";
@@ -162,7 +177,7 @@ class Collector {
     };
 
     if (isStraight(cards)) {
-      return ["STRAIGHT", 75];
+      return this.state.handScores.STRAIGHT;
     }
 
     const freq = {};
@@ -173,20 +188,19 @@ class Collector {
     const frequencies = Object.values(freq).sort((a, b) => b - a);
 
     if (frequencies[0] === 4) {
-      return ["FOAK", 100];
+      return this.state.handScores.FOAK;
     } else if (frequencies[0] === 3) {
-      return ["TOAK", 30];
+      return this.state.handScores.TOAK;
     } else if (frequencies[0] === 2 && frequencies[1] === 2) {
-      return ["TWO PAIR", 10];
+      return this.state.handScores.TWOPAIR;
     } else if (frequencies[0] === 2) {
-      return ["PAIR", 10];
+      return this.state.handScores.PAIR;
     } else {
       return ["", 1];
     }
   }
 
   addItem(item, elapsed) {
-
     this.types[this.currentType].addItem(item);
 
     let sum = this.types[this.currentType].sum();
@@ -195,7 +209,6 @@ class Collector {
       this.state.eventEmitter.emit("thirteen");
 
       this.level1();
-
     }
 
     if (this.collected.length === 4) {
@@ -210,7 +223,7 @@ class Collector {
       sum = sum * hand[1];
 
       if (colors.size === 1) {
-        sum = sum * 10;
+        sum = sum * this.state.handScores.COLOR;
         this.state.eventEmitter.emit("colorBonus");
       }
 
@@ -300,7 +313,7 @@ class Score {
     ctx.font = `${this.pulseSize >> 0}px Arial`;
     ctx.fillStyle = `rgba(${this.color}, ${this.glowAlpha})`;
     ctx.fillText(this.score, this.x, this.y);
-    ctx.restore()
+    ctx.restore();
   }
 }
 
@@ -331,25 +344,96 @@ export class Game {
     this.state.eventEmitter.on("handBonus", this.handBonus.bind(this));
     this.state.eventEmitter.on("timeBonus", this.timeBonus.bind(this));
 
-    this.state.sounds.playSong(0)
+    this.state.eventEmitter.on("shopChoice", this.shopShoice.bind(this));
+
+    this.state.sounds.playSong(0);
+
+    this.reset();
+  }
+
+  reset() {
+    this.shopOptions = [
+      {
+        description: "Numbers move more quickly",
+        act: () => {
+          this.state.numbersSpeed *= 1.1;
+        },
+      },
+      {
+        description: "Numbers bounce one more time",
+        act: () => {
+          this.state.numbersBounce++;
+        },
+      },
+    ];
+
+    this.prevTime = 0;
+    this.items = [];
+    this.numberQueue = [];
+
+    this.lastTime = 0;
+    this.accumulatedTime = 0;
+    this.levelStarted = 0;
+
+    this.randomLines.reset();
+    this.startField.reset();
+
+    this.state.canvas.style.opacity = 1;
+    this.state.startfieldCanvas.style.opacity = 1;
+
+    this.started = true;
   }
 
   colorBonus() {
-    this.items.push(new Score(this.state, "🎨", this.player.x, this.player.y, -0.5, 0, 0.4, "255, 99, 97"));
+    this.items.push(
+      new Score(
+        this.state,
+        "🎨",
+        this.player.x,
+        this.player.y,
+        -0.5,
+        0,
+        0.4,
+        "255, 99, 97"
+      )
+    );
   }
 
   handBonus(hand) {
-    this.items.push(new Score(this.state, hand, this.player.x, this.player.y, 0, 1, 0.6, "255, 211, 128"));
+    this.items.push(
+      new Score(
+        this.state,
+        hand,
+        this.player.x,
+        this.player.y,
+        0,
+        1,
+        0.6,
+        "255, 211, 128"
+      )
+    );
   }
 
   timeBonus() {
-    this.items.push(new Score(this.state, "⏱️", this.player.x, this.player.y, 0.5, 0, 0.4, "255, 211, 128"));
+    this.items.push(
+      new Score(
+        this.state,
+        "⏱️",
+        this.player.x,
+        this.player.y,
+        0.5,
+        0,
+        0.4,
+        "255, 211, 128"
+      )
+    );
   }
 
   death() {
-    this.state.gameOver.style.display = 'block';
-    document.querySelector("body").style.cursor = "auto"
-    console.log("gane death")
+    document.querySelector("body").style.cursor = "auto";
+    this.state.gameOverText.innerHTML = `Your score is ${this.score}.<br/>Click to try again.`;
+
+    this.state.gameOver.style.display = "block";
 
     this.state.canvas.style.opacity = 0.1;
     this.state.startfieldCanvas.style.opacity = 0.1;
@@ -357,20 +441,59 @@ export class Game {
     this.started = false;
   }
 
-  finishedLevel(score) {
+  showShop() {
+    this.started = false;
 
+    const shopItem1 =
+      this.shopOptions[Math.floor(Math.random() * this.shopOptions.length)];
+    const shopItem2 =
+      this.shopOptions[Math.floor(Math.random() * this.shopOptions.length)];
+    const shopItem3 =
+      this.shopOptions[Math.floor(Math.random() * this.shopOptions.length)];
+
+    this.state.shop.style.display = "grid";
+    this.state.shop1.innerText = shopItem1.description;
+    this.state.shop2.innerText = shopItem2.description;
+    this.state.shop3.innerText = shopItem3.description;
+
+    this.currentShop = {
+      one: shopItem1,
+      two: shopItem2,
+      three: shopItem3,
+    };
+
+    document.querySelector("body").style.cursor = "auto";
+  }
+
+  shopShoice(choice) {
+    this.currentShop[choice].act();
+    this.started = true;
+    this.state.shop.style.display = "none";
+  }
+
+  finishedLevel(score) {
     this.levelStarted = 0;
 
-    console.log(this.score, score);
+    this.showShop();
+
     this.score += score;
     this.state.score.innerText = `${this.score} (${score})`;
 
-    this.items.push(new Score(this.state, score, this.player.x, this.player.y, 0, -0.5, 1, "255,255,255"));
+    this.items.push(
+      new Score(
+        this.state,
+        score,
+        this.player.x,
+        this.player.y,
+        0,
+        -0.5,
+        1,
+        "255,255,255"
+      )
+    );
   }
 
   setLevel() {
-
-
     this.numberIntervalValue = 1000;
     this.numbersMax = 20;
 
@@ -384,13 +507,9 @@ export class Game {
 
     this.player = new Player(this.state);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 4; i++) {
       this.numberQueue.push(new Number(this.state));
     }
-
-    // setInterval(() => {
-    //
-    // }, 1500);
   }
 
   areRectanglesColliding(rect1, rect2) {
@@ -403,78 +522,84 @@ export class Game {
   }
 
   draw(timestamp) {
-    if (!this.started) return;
+    if (this.started) {
+      let elapsed = timestamp - this.prevTime;
 
-    let elapsed = timestamp - this.prevTime;
+      this.levelStarted += elapsed;
 
-    this.levelStarted += elapsed;
+      this.prevTime = timestamp;
 
-    this.prevTime = timestamp;
+      let elapsedTime = timestamp - this.lastTime;
+      this.lastTime = timestamp;
+      this.accumulatedTime += elapsedTime;
 
-    let elapsedTime = timestamp - this.lastTime;
-    this.lastTime = timestamp;
-    this.accumulatedTime += elapsedTime;
+      if (this.accumulatedTime > 50) {
+        console.log(this.accumulatedTime, this.fixedTimeStep);
+      }
 
-    while (this.accumulatedTime >= this.fixedTimeStep) {
+      while (this.accumulatedTime >= this.fixedTimeStep) {
+        this.startField.update();
 
-      this.startField.update();
+        for (const item of this.items) {
+          item.update(this.deltaTime);
 
-      for (const item of this.items) {
-        item.update(this.deltaTime);
+          if (
+            item.alive &&
+            item.type === "number" &&
+            this.areRectanglesColliding(item, this.player.getCollisionRect())
+          ) {
+            item.alive = false;
 
-        if (
-          item.alive &&
-          item.type === "number" &&
-          this.areRectanglesColliding(item, this.player.getCollisionRect())
-        ) {
-          item.alive = false;
+            this.numberQueue.push(new Number(this.state));
 
-          this.numberQueue.push(new Number(this.state));
+            if (!this.player.discarding) {
+              this.state.eventEmitter.emit(
+                "playerCollectedNumber",
+                item,
+                this.levelStarted
+              );
+            }
+          }
+        }
 
-          if (!this.player.discarding) {
+        this.player.update(this.deltaTime);
 
+        this.items = this.items.filter((x) => x.alive);
 
+        this.accumulatedTime -= this.fixedTimeStep;
+      }
 
-            this.state.eventEmitter.emit("playerCollectedNumber", item, this.levelStarted);
+      this.numberInterval -= this.fixedTimeStep;
+
+      if (this.numberInterval <= 0) {
+        if (this.numberQueue.length > 0) {
+          if (
+            this.items.filter((x) => x.type && x.type === "number").length <
+            this.numbersMax
+          ) {
+            const nextNumber = this.numberQueue.pop();
+            nextNumber.reset();
+            this.items.push(nextNumber);
+            this.numberInterval = this.numberIntervalValue;
           }
         }
       }
 
-      this.player.update(this.deltaTime);
+      this.state.ctx.clearRect(0, 0, this.state.width, this.state.height);
 
-      this.items = this.items.filter((x) => x.alive);
+      this.startField.draw(this.state.startfieldCtx);
 
-      this.accumulatedTime -= this.fixedTimeStep;
-    }
+      this.randomLines.draw(this.state.ctx, elapsed);
 
-    if (!this.started) return;
-
-
-    this.numberInterval -= this.fixedTimeStep;
-
-    if (this.numberInterval <= 0) {
-      if (this.numberQueue.length > 0) {
-        if (
-          this.items.filter((x) => x.type && x.type === "number").length <
-          this.numbersMax
-        ) {
-          this.items.push(this.numberQueue.pop());
-          this.numberInterval = this.numberIntervalValue;
-        }
+      for (const item of this.items) {
+        item.draw(this.state.ctx, elapsed);
       }
+
+      this.player.draw(this.state.ctx);
+    } else {
+      this.prevTime = timestamp;
+      this.lastTime = timestamp;
     }
-
-    this.state.ctx.clearRect(0, 0, this.state.width, this.state.height);
-
-    this.startField.draw(this.state.startfieldCtx);
-
-    this.randomLines.draw(this.state.ctx, elapsed);
-
-    for (const item of this.items) {
-      item.draw(this.state.ctx, elapsed);
-    }
-
-    this.player.draw(this.state.ctx);
 
     requestAnimationFrame((ticks) => this.draw(ticks));
   }

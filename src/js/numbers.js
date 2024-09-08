@@ -1,22 +1,19 @@
 export class Number {
-  constructor(state, number) {
+  constructor(state) {
     this.state = state;
-
-    this.number = number ?? ((Math.random() * 13) >> 0) + 1;
 
     this.width = (50 * this.state.scaleFactor) >> 0;
     this.height = this.width;
 
-    this.baseSpeed = 100;
-
     this.type = "number";
 
     this.colors = ["255, 61, 109", "253, 140, 44", "60, 252, 140"];
-    this.reset();
   }
 
   reset() {
     const r = Math.random();
+
+    this.baseSpeed = this.state.numbersSpeed;
 
     if (r < 0.25) {
       this.x = (Math.random() * this.state.width) >> 0;
@@ -41,9 +38,10 @@ export class Number {
     }
 
     this.alive = true;
-    this.bounces = 4;
+    this.bounces = this.state.numbersBounce;
 
-    this.number = ((Math.random() * 13) >> 0) + 1;
+    this.number =
+      this.state.numbers[(Math.random() * this.state.numbers.length) >> 0];
 
     this.color = this.colors[(Math.random() * this.colors.length) >> 0];
   }
@@ -82,50 +80,48 @@ export class Number {
     }
 
     if (
-      this.x < -150 ||
-      this.y < -150 ||
-      this.x > this.state.width + 150 ||
-      this.y > this.state.height + 150
+      this.x < -this.baseSpeed ||
+      this.y < -this.baseSpeed ||
+      this.x > this.state.width + this.baseSpeed ||
+      this.y > this.state.height + this.baseSpeed
     ) {
       this.reset();
     }
   }
 
   draw(ctx, elapsed) {
-
     ctx.fillStyle = `rgba(${this.color})`;
     ctx.fillRect(this.x, this.y, this.width, this.height);
 
     ctx.strokeStyle = `rgba(${this.color})`;
     ctx.strokeRect(this.x, this.y, this.width, this.height);
 
-
     if (this.bounces > 0) {
       ctx.beginPath();
-      ctx.fillStyle = `#1D1C18`;
+      ctx.fillStyle = `rgba(${this.color})`;
 
-      ctx.arc(this.x + 8, this.y + 8, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
     if (this.bounces > 1) {
       ctx.beginPath();
-      ctx.fillStyle = `#1D1C18`;
+      ctx.fillStyle = `rgba(${this.color})`;
 
-      ctx.arc(this.x + this.width - 8, this.y + 8, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x + this.width, this.y, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
     if (this.bounces > 2) {
       ctx.beginPath();
-      ctx.fillStyle = `#1D1C18`;
+      ctx.fillStyle = `rgba(${this.color})`;
 
-      ctx.arc(this.x + 8, this.y + this.height - 8, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x, this.y + this.height, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
     if (this.bounces > 3) {
       ctx.beginPath();
-      ctx.fillStyle = `#1D1C18`;
+      ctx.fillStyle = `rgba(${this.color})`;
 
-      ctx.arc(this.x + this.width - 8, this.y + this.height - 8, 5, 0, 2 * Math.PI);
+      ctx.arc(this.x + this.width, this.y + this.height, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
 

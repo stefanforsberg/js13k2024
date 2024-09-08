@@ -1,16 +1,18 @@
 Song
 https://sb.bitsnbites.eu/?data=U0JveA4C7dw9b9NAGMDxx2-XJnETt3lpmjTIUgdGxARi8ghSEUhhY2CgMCBEBQKkqrSyskRA1MWiQv0kSIxMrOx8Bhb2YCeOTKK4icRLYun_8909zznW2eeX6aS8rYkUxVVy3xf9gW-L2O2bImK8MTXd2RO3Y3TDzDAt3VBR7YoMS1r81-pzRJdqqdxavlC07fVS2dnYrFSqtfpWY7vZbO20T0SGJS2uuuO4pMVVdxSXtLjs96e902puNxpb9Vq1srnhlMuldbtYyK_llLJMQ9eW_v7P-d1Z8fsPAAAAAAAAAMAqMvZ9Mb76epiqq9GO96ZmXPq0-zNQ91TUjxbLovp6eHjSJln3yUEGJvpiqk2yk8dZuP7nU22SHT_KwvUfTLVJdvTwJd8hAAAAAAAAAABYhv3hQlmYWOpG1D9Xmn77uriBOpxYKBM5XWi83kSvn3ZU8Ptop_9prhefJ4jj2bD9sNA4wULnPfvL8zifubeferrxM_k4YwrvZt6DxecGAAAAAAAAAACQXf1R7ZiFK9fC9LMl2o-euE8txxwfooXmDdObs_2pwpztrrTCasexGMd8HDs8ZwAAAAAAAAAAAEwavPJk8Ew8MdVuvEsviXZ5zxp1tFi01HVRBQAAAAAAAAAAADLlu-_JN1-8galu3Qn7Xk4zvpTFrUpj9NeLsSgfL4ilRQAAAAAAAAAAACArfgE
 
-
 https://sb.bitsnbites.eu/?data=U0JveA4C7d3BahNBGADgfzabVUsPHoQKvQQ8eIyeCoIYKR59C48eQmiJhVK2VEkJBg8tijfx6Ct4UxC8evcRxEeI2cSSksbmYsXQ71v2Z_7Z2dkZdm_D7v5Yi0jRKGK41Yrhs2h9yItbMZHdjvxuVUipN4q9mOqdigAAAAAAALB0vpet-FZGa5gXm8ejfO1Kqu0Orr25ETdTyk5azS6ILdsC2fzx_7tZrCyoHc49_tDjCQAAAAAA8Ne9nOzr-UpzY1T8WI_0sxeNp_XrefX22PnbRVtZsD2O9XN3AAAAAAAAOK32qYz0pSwiVjceVRX385StNlKjXdvMUtaZtOrsRVXqRHecdqMdcdBdgum1T-J2FTvR-T3-Ubq_7e4DAAAAAABcPv2tSP0yj2bzzvsHuymeX01Z612tcZTv1KuPK_Zn2h8s2fwOZ_K9cRy48QAAAAAAAJdS9qSM2tdyVKoX96qKz0XKehGNo2KnmP57bJH-gny6IPXqj30cXuhEj88Ob3al7-10JC9Gcf9MH6-nZ4-b7M290mBu5wAAAAAAAPwPfgE
 
 https://sb.bitsnbites.eu/?data=U0JveA4C7dy9btRAFIbhzz9rJAqEqCgAbUdBQRMUiQopoUaIXEJKGkhghQAza689seN44zWhzI0goUhp4Ba4CS4B_BchCiijNXofnTPH43ExtuTqyD6_I13RNNCukffNSJoED5tRG47cPWlaB_cCx_X8Nt-GUWzzclnmNo7CKAznSZofVavqKE-TeTLXmjOxPSiW9cd6WRzY2MZj33-UZHlZnXw6qco8S7Jk3ff_IUrtYbmqV-WhTaM0em8WSVYcV8dFlizMwggAAAAAAAAAAOCSubtG6ppkCm6347nveLdezL7WwU7Qztsm2UupjXCoeqUu5kNd-5uc9REPdfT7f6MukqGu_f5f9xENVfvqwgyVtxAAAAAAAAAAAFy-n_tPmtQz-cHjjf6Ue02aXqw7DdvUfyUAAAAAAAAAAAAwLkWfT_2r9zebw88TOT-sps8n1_12uW2Sda0w2w-yQ2vsjzkAAAAAAAAAAAAwHp6MvG2jR999_8G25Gz6jru19-7LVnDXaS_om2S_vxj7WwUAAAAAAAAAAADGwj0z8s6KG9Lp7PTi3KT73eJNt504PCMAAAAAAAAAAAD8Z34B
 
 https://sb.bitsnbites.eu/?data=U0JveA4C7d1Bi9NAFMDxl0waQRbxLki9rAcPIqwseBJ2PYusNw972aMHl7pb0LVOkybTpGm6adz9LILgfb-CX8KLd-2QbRAPpWAtDf5_4T3eTIbkNTSnoVS2RW5I21dHWtSVFnFa_hMRUTuuuB2Rduk_8B1XeTbe94LQpPkkT00Y9IJerx_F6biYFuM0jvpRXzacDs0wm5Sfykk2NKEJm95_ECVpXlxcXhR5mkRJtOn9fwxiM8qn5TQfmTiIgw96ECXZeXGeJdFAD7QAAAAAAAAAAACs2yst6lBviWyd3buecs0buXOgAs8O7CZZuuJ7jpdcN1nR_YYr7D37rb78y8-3rHLFzytZcl3-j75z2YJzozX2AQAAAAAAAAAA_mM_3z6fhRyI5z_bqabcWyLt-XlnxsjiAwAAAAAAAAAAAGiWrIoX3s2Hu7PyS0uc70bar1u3q1-SzYjdCDNVEmM3xf4cAwAAAAAAAAAAAM2hRIva1_L0m-c93hdxdj3H3eucfd3z7zt2Qb1JtjAAAAAAAAAAAACA5lBHWtSVdmel_8hOjDxH3f3c_VH6L307tv9JtsyFute5G1bVifTf2VzF5uvWed7_PJ9sZH-ndT5txPPt1Lmqjut8zFsIAAAAAAAAAADW7hc
 
-
 https://sb.bitsnbites.eu/?data=U0JveA4C7duxSsRAFIXhM5M4ldjZSt5ABCuxE2sLfYTtLVxiIbKDzbIkiJDGxvewt9r3sY8zrug6yJTrLPwfnHDvJYFcUoZZ7Eu1mtpOvMzSS9pxJ-GqN2fsXGoGdxaqqtajfutD4uwpZFD5-qTvkh1K1yX9ItmhdPO1917fpxcAAAAAAAAAAMD_qCZe1dLbULqjOOhqUx283r4P7urzD5lp9aBcSjeVz6Z0N5plU7pr3WUDAAAAAAAAAACwceP0IkSXqt358Wpk96QmFiaKZ4ByAQAAAAAAAAAAALbK-ByzK1mdfo3sKDWH1Us8WCazmrXJY-0f9X3S--870pNCP_2MLwAAAAAAAAAAAICN-gA
 
+https://sb.bitsnbites.eu/?data=U0JveA4C7d3NahRZFMDxc-tW33yajpq0UfNRRjTRoDEmGEmCaYxRFESG2cwDZOFCEDVEJIQUIhShiyZOMRrc-ADzACO4GIasBFcuZjfLYWY3m9n3VCfdMV0dqsEhUhX_v-bk3nO5VTlVHbIpus9at8iAOG3Wgiv6gysimUvDdjhsGmUtzYoTmDkjFcrSdhgZiShGcr-yth5GIMnnR_JC5BqSrhDJ1yLXkHTerrp3X48v6dC4_mBnh1d5d_ytXWvh31cgAAAAAAAAAAAgefRC9eGZmLHyz4JWuv_d038D06crD81qQymrOl-S5xIXSbcobmwk3RNZjY2keyjLdfFIVrZqT8P9BwAAAAAAAAAAB1Bp8V4Y8r3YZn5ie8nqEHHKE1XLiuSq_MmbuEg6r2b06nIAAAAAAAAAAAB8Y0oboksb7SKWzFSWrJKIM6rnm_far8JXraWYvDpfieTuzo7lyNGf81XeHAAAAAAAAAAAAHxVVtEV-XWxRcTkBuWxlnmtVO6BOHfNsol-ZeOX_YqivCmmowfX3nzZ8NPTh6teQV4X6vujpYUX8AlAAAAAAAAAAADw9VgL1Z5nGTNVXtg0yvJEnMA8M3seocSqTovyo_wkG-G4Hs6Cujzp_LDOQF6FY7nil3U5AAAAAAAAAAAAvjF_uHn55Eq-ZJvb98I836T0ZlacLmnWkV5nOtoDrXx8bZ-w-jHp9qjb2-5_5nnpqN3b1WPOS939BwAAAAAAAAAASBZ_O76zW0cnw-n7jKh_PHEeZDpt1UAg8S8AAAAAAAAAAAAgXdztWBE1XVlRv_0sfUP6B93o4Vn8id9ybwEAAAAAAAAAAJAuv9_Py8f7kv_THh4ZD_O_jNK_ZMX5276z0_NMRcYqvhoQAAAAAAAAAAAAB4m14Ir-4IazTM-wLaI3jVjSK06g50x0s7K0XR2r8zjPvWIQF_-3-FwDW4VmTFNzS2tb-6GObLbz8JGjXd25Yz3HT5zs7etvdH73hb8eF_tdf__AqcHTZ84OnTs_cuHi6Njl8Ykrk1enpmeuzeavz924eavR-VdfFNbjYr_rv3Xzxtz1_Oy1mempq5NXJsYvj41evDBy_tzQ2TOnB08NNLz_y67nx8W-3_--3pMnjvccy3V3HT1yuDOb7TjU3tba0txkMra2FP89AAAAAAAAAAA4gP4D
+
+CSS flitch text effect:
+https://10015.io/tools/css-text-glitch-effect-generator
 
 Todo:
 
@@ -21,10 +23,11 @@ Todo:
 - [x] Track to complete level
 - [x] Add time to complete level as bonus multiplier
 - [x] Add click to create shield where you can "discard" numbers
-  - [ ] After shield is used up, add some sort of cooldown on mouse
+  - [x] After shield is used up, add some sort of cooldown
+  - [ ] If activating before shield is used up
 - [x] Max 20 numbers on the screen at a time
 - [ ] Better score display
-- [ ] Adding upside / downside powerups
+- [x] Adding upside / downside powerups
   - [ ] Increase life by one
   - [ ] Numbers are hidden/shown on some time interval
   - [ ] More color1/color2/color3
@@ -32,10 +35,15 @@ Todo:
   - [ ] Increase multiplier of various hands
 - [x] song
 - [ ] sfx
-- [ ] better purple color for numbers
+- [x] better purple color for numbers
 - [ ] game over screen
+- [ ] restart a game overed game, all perks resets
 - [x] loading
 - [x] start game button
 - [ ] how to play
 - [ ] high score
   - [ ] highest combo
+- [x] When completing a level, randomly choose next mode for next level
+- [x] Abstract multipliers/scores for completing a level to make it easier to change them with powerups/curses
+- [x] Extract the numbers that can be generated and their respective odds
+- [ ] log of all hands and their score

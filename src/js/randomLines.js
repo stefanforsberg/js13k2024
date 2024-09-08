@@ -12,6 +12,10 @@ export class RandomLines {
     this.lineWidth = 0;
   }
 
+  reset() {
+    this.lines = [];
+  }
+
   collected(item) {
     const [x, y] = item.getCenter();
 
