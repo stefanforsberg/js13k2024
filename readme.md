@@ -24,7 +24,6 @@ Todo:
 - [x] Add time to complete level as bonus multiplier
 - [x] Add click to create shield where you can "discard" numbers
   - [x] After shield is used up, add some sort of cooldown
-  - [ ] If activating before shield is used up
 - [x] Max 20 numbers on the screen at a time
 - [ ] Better score display
 - [x] Adding upside / downside powerups
@@ -46,4 +45,5 @@ Todo:
 - [x] When completing a level, randomly choose next mode for next level
 - [x] Abstract multipliers/scores for completing a level to make it easier to change them with powerups/curses
 - [x] Extract the numbers that can be generated and their respective odds
-- [ ] log of all hands and their score
+- [x] log of all hands and their score
+- [x] log of "build"

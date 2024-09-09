@@ -1,308 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script type="module" src="./js/app.js"></script>
-    <style>
-      :root {
-        --score-border-color: #1d1c18;
-        --main-yellow: #ffd644;
-        --main-black: #1d1c18;
-        --main-light: #e5e3d7;
-        --main-pink: #ff3d6d;
-        --main-orange: #fd8c2c;
-        --main-green: #3cfc8c;
-      }
 
-      body,
-      html {
-        margin: 0;
-        padding: 0;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script type="module" src="./js/app.js"></script>
+  <style>
+    :root {
+      --score-border-color: #1d1c18;
+      --main-yellow: #ffd644;
+      --main-black: #1d1c18;
+      --main-light: #e5e3d7;
+      --main-pink: #ff3d6d;
+      --main-orange: #fd8c2c;
+      --main-green: #3cfc8c;
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--main-black);
+      /* background: linear-gradient(#053e5a 0%, #00080c 30%, #00202e); */
+      cursor: auto;
+      font-family: monospace;
+    }
+
+    #score-container {
+      position: absolute;
+      top: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      border-bottom-left-radius: 7px;
+      border-bottom-right-radius: 7px;
+      width: 200px;
+      color: var(--main-yellow);
+      font-size: 3em;
+      text-align: center;
+    }
+
+    #hud {
+      position: absolute;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--main-light);
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      width: 600px;
+      color: var(--main-yellow);
+      height: 65px;
+    }
+
+    #hud-container {
+      height: 100%;
+    }
+
+    #collection {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      column-gap: 2ch;
+      height: 100%;
+
+      & div {
+        color: var(--main-black);
         height: 100%;
-        width: 100%;
-        overflow: hidden;
-        background-color: var(--main-black);
-        /* background: linear-gradient(#053e5a 0%, #00080c 30%, #00202e); */
-        cursor: auto;
-        font-family: monospace;
-      }
-
-      #score-container {
-        position: absolute;
-        top: 0px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        border-bottom-left-radius: 7px;
-        border-bottom-right-radius: 7px;
-        width: 200px;
-        color: var(--main-yellow);
+        border: solid 1px var(--score-border-color);
         font-size: 3em;
-        text-align: center;
-      }
-
-      #hud {
-        position: absolute;
-        bottom: 0px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: var(--main-light);
-        border-top-left-radius: 7px;
-        border-top-right-radius: 7px;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        width: 600px;
-        color: var(--main-yellow);
-        height: 65px;
-      }
-
-      #hud-container {
-        height: 100%;
-      }
-
-      #collection {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        column-gap: 2ch;
-        height: 100%;
-
-        & div {
-          color: var(--main-black);
-          height: 100%;
-          border: solid 1px var(--score-border-color);
-          font-size: 3em;
-          vertical-align: middle;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-      }
-
-      #game-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        color: white;
-        padding: 10px;
-        text-align: center;
-        width: 80%;
-        height: 80%;
-        color: var(--main-yellow);
-        font-family: monospace;
-        font-size: 5em;
-        display: grid;
+        vertical-align: middle;
+        display: flex;
         justify-content: center;
         align-items: center;
-
-        & a,
-        a:active,
-        a:visited {
-          color: var(--main-yellow);
-          text-decoration: none;
-        }
       }
+    }
 
-      #game-start {
-        display: none;
+    #game-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      color: white;
+      padding: 10px;
+      text-align: center;
+      width: 80%;
+      height: 80%;
+      color: var(--main-yellow);
+      font-family: monospace;
+      font-size: 5em;
+      display: grid;
+      justify-content: center;
+      align-items: center;
 
-        & div.instruction {
-          font-size: 16px;
-        }
+      & a,
+      a:active,
+      a:visited {
+        color: var(--main-yellow);
+        text-decoration: none;
       }
+    }
 
-      #game-over {
-        display: none;
-        cursor: pointer;
-      }
+    #game-start {
+      display: none;
 
-      #game-over-text {
+      & div.instruction {
         font-size: 16px;
       }
+    }
 
-      #starField {
-        position: absolute;
-        top: 0;
-        left: 0;
+    #game-over {
+      display: none;
+      cursor: pointer;
+    }
+
+    #game-over-text {
+      font-size: 16px;
+    }
+
+    #game-over-stat {
+      margin-top: 3%;
+      overflow-y: scroll;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 2ch;
+      font-size: 16px;
+      display: grid;
+      height: 260px;
+
+      & div {
+        text-align: left;
       }
 
-      #canvas {
-        z-index: 1;
-      }
+    }
 
-      #shop {
-        width: 600px;
-        background-color: var(--main-light);
+    #starField {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #score-container {
+      display: none;
+    }
+
+    #hud {
+      display: none;
+    }
+
+    #canvas {
+      z-index: 1;
+    }
+
+    #shop {
+      width: 600px;
+      background-color: var(--main-light);
+      padding: 7px;
+      font-size: 1.5rem;
+      display: none;
+      row-gap: 10px;
+
+      & div {
         padding: 7px;
-        font-size: 1.5rem;
-        display: none;
-        row-gap: 10px;
+        cursor: pointer;
+      }
+    }
 
-        & div {
-          padding: 7px;
-          cursor: pointer;
-        }
+    #shop-1 {
+      background-color: var(--main-orange);
+      color: var(--main-black);
+    }
+
+    #shop-1:hover {
+      background-color: var(--main-black);
+      color: var(--main-orange);
+    }
+
+    #shop-2 {
+      background-color: var(--main-green);
+      color: var(--main-black);
+    }
+
+    #shop-2:hover {
+      background-color: var(--main-black);
+      color: var(--main-green);
+    }
+
+    #shop-3 {
+      background-color: var(--main-pink);
+      color: var(--main-black);
+    }
+
+    #shop-3:hover {
+      background-color: var(--main-black);
+      color: var(--main-pink);
+    }
+
+    /* glitch text start */
+    .glitch-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .glitch {
+      position: relative;
+      font-size: 80px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #ffd644;
+      letter-spacing: 5px;
+      z-index: 1;
+    }
+
+    .glitch:before,
+    .glitch:after {
+      display: block;
+      content: attr(data-glitch);
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.8;
+    }
+
+    .glitch:before {
+      animation: glitch-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+      color: #ff3d6d;
+      z-index: -1;
+    }
+
+    .glitch:after {
+      animation: glitch-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+      color: #3cfc8c;
+      z-index: -2;
+    }
+
+    @keyframes glitch-color {
+      0% {
+        transform: translate(0);
       }
 
-      #shop-1 {
-        background-color: var(--main-orange);
-        color: var(--main-black);
+      20% {
+        transform: translate(-3px, 3px);
       }
 
-      #shop-1:hover {
-        background-color: var(--main-black);
-        color: var(--main-orange);
+      40% {
+        transform: translate(-3px, -3px);
       }
 
-      #shop-2 {
-        background-color: var(--main-green);
-        color: var(--main-black);
+      60% {
+        transform: translate(3px, 3px);
       }
 
-      #shop-2:hover {
-        background-color: var(--main-black);
-        color: var(--main-green);
+      80% {
+        transform: translate(3px, -3px);
       }
 
-      #shop-3 {
-        background-color: var(--main-pink);
-        color: var(--main-black);
+      to {
+        transform: translate(0);
       }
+    }
 
-      #shop-3:hover {
-        background-color: var(--main-black);
-        color: var(--main-pink);
-      }
+    /* glitch text end */
+  </style>
+</head>
 
-      /* glitch text start */
-      .glitch-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-      }
+<body>
+  <canvas id="starField"></canvas>
 
-      .glitch {
-        position: relative;
-        font-size: 80px;
-        font-weight: 700;
-        line-height: 1.2;
-        color: #ffd644;
-        letter-spacing: 5px;
-        z-index: 1;
-      }
+  <canvas id="canvas"></canvas>
 
-      .glitch:before,
-      .glitch:after {
-        display: block;
-        content: attr(data-glitch);
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.8;
-      }
+  <div id="score-container">
+    <div id="score">0</div>
+  </div>
 
-      .glitch:before {
-        animation: glitch-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both
-          infinite;
-        color: #ff3d6d;
-        z-index: -1;
-      }
+  <div id="hud">
+    <div id="hud-container">
+      <div id="collection">
+        <div id="collected-1"></div>
+        <div id="collected-2"></div>
+        <div id="collected-3"></div>
+        <div id="collected-4"></div>
+        <div id="collected-5"></div>
+        <div id="collected-6"></div>
+        <div id="collected-7"></div>
+      </div>
+    </div>
+  </div>
 
-      .glitch:after {
-        animation: glitch-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-          reverse both infinite;
-        color: #3cfc8c;
-        z-index: -2;
-      }
-
-      @keyframes glitch-color {
-        0% {
-          transform: translate(0);
-        }
-
-        20% {
-          transform: translate(-3px, 3px);
-        }
-
-        40% {
-          transform: translate(-3px, -3px);
-        }
-
-        60% {
-          transform: translate(3px, 3px);
-        }
-
-        80% {
-          transform: translate(3px, -3px);
-        }
-
-        to {
-          transform: translate(0);
-        }
-      }
-
-      /* glitch text end */
-    </style>
-  </head>
-
-  <body>
-    <canvas id="starField"></canvas>
-
-    <canvas id="canvas"></canvas>
-
-    <div id="score-container">
-      <div id="score">0</div>
+  <div id="game-overlay">
+    <div id="shop">
+      <div id="shop-1">Asd</div>
+      <div id="shop-2">Asd</div>
+      <div id="shop-3">Asd</div>
     </div>
 
-    <div id="hud">
-      <div id="hud-container">
-        <div id="collection">
-          <div id="collected-1"></div>
-          <div id="collected-2"></div>
-          <div id="collected-3"></div>
-          <div id="collected-4"></div>
-          <div id="collected-5"></div>
-          <div id="collected-6"></div>
-          <div id="collected-7"></div>
+    <div id="game-loading">
+      <a href="">
+        <div>LOADING...</div>
+      </a>
+    </div>
+
+    <div id="game-start">
+      <a href="#">
+        <div>START GAME</div>
+      </a>
+
+      <div class="instruction">
+        <h2>How to play</h2>
+      </div>
+    </div>
+
+    <div id="game-over">
+      <div class="glitch-wrapper">
+        <div class="glitch" data-glitch="TRAUMA #13">TRAUMA #13</div>
+      </div>
+      <div id="game-over-text"></div>
+      <div id="game-over-stat">
+        <div>
+          Straight sad asdas d<br>
+          Straight sad asdas d<br>
+          Straight sad asdas d<br>
+          Straight sad asdas d<br>
+          Straight sad asdas d<br>
+        </div>
+        <div>
+          Straight sad asdas d<br>
+          Straight sad asdas d<br>
+          Straight sad asdas d<br>
         </div>
       </div>
     </div>
+  </div>
+</body>
 
-    <div id="game-overlay">
-      <div id="shop">
-        <div id="shop-1">Asd</div>
-        <div id="shop-2">Asd</div>
-        <div id="shop-3">Asd</div>
-      </div>
-
-      <div id="game-loading">
-        <a href="">
-          <div>LOADING...</div>
-        </a>
-      </div>
-
-      <div id="game-start">
-        <a href="#">
-          <div>START GAME</div>
-        </a>
-
-        <div class="instruction">
-          <h2>How to play</h2>
-        </div>
-      </div>
-
-      <div id="game-over">
-        <div class="glitch-wrapper">
-          <div class="glitch" data-glitch="TRAUMA #13">TRAUMA #13</div>
-        </div>
-        <div id="game-over-text"></div>
-      </div>
-    </div>
-  </body>
 </html>
