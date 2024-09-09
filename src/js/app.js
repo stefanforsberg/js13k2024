@@ -25,6 +25,7 @@ const load = () => {
     shop1: document.getElementById("shop-1"),
     shop2: document.getElementById("shop-2"),
     shop3: document.getElementById("shop-3"),
+    shop4: document.getElementById("shop-4"),
     collectors: [
       document.getElementById("collected-1"),
       document.getElementById("collected-2"),
@@ -68,6 +69,11 @@ const load = () => {
   state.shop3.addEventListener("click", (event) => {
     event.stopPropagation();
     state.eventEmitter.emit("shopChoice", "three");
+  });
+
+  state.shop4.addEventListener("click", (event) => {
+    event.stopPropagation();
+    state.eventEmitter.emit("shopChoice", "four");
   });
 
   state.sounds.load(() => {

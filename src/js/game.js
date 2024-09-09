@@ -32,7 +32,7 @@ export class Game {
     this.state.eventEmitter.on("handBonus", this.handBonus.bind(this));
     this.state.eventEmitter.on("timeBonus", this.timeBonus.bind(this));
 
-    this.state.eventEmitter.on("shopChoice", this.shopShoice.bind(this));
+    this.state.eventEmitter.on("shopChoice", this.shopChoice.bind(this));
 
     this.state.sounds.playSong(0);
 
@@ -40,6 +40,11 @@ export class Game {
   }
 
   reset() {
+
+    this.numberIntervalValue = 2000;
+    this.numbersMax = 20;
+
+    this.numberInterval = this.numberIntervalValue;
 
     this.log = {
       hands: [],
@@ -59,7 +64,54 @@ export class Game {
           this.state.numbersBounce++;
         },
       },
+      {
+        description: "Numbers more likely to be even",
+        act: () => {
+          this.state.numbers.push(2);
+          this.state.numbers.push(4);
+          this.state.numbers.push(6);
+          this.state.numbers.push(8);
+          this.state.numbers.push(10);
+          this.state.numbers.push(12);
+        },
+      },
+      {
+        description: "Numbers more likely to be odd",
+        act: () => {
+          this.state.numbers.push(1);
+          this.state.numbers.push(3);
+          this.state.numbers.push(5);
+          this.state.numbers.push(7);
+          this.state.numbers.push(9);
+          this.state.numbers.push(11);
+          this.state.numbers.push(13);
+        },
+      }
     ];
+
+    for (let i = 1; i <= 12; i++) {
+      this.shopOptions.push({
+        description: "Number more likely to be " + i,
+        act: () => {
+          this.state.numbers.push(i);
+        },
+      })
+    }
+
+    for (let i = 1; i <= 12; i++) {
+      this.shopOptions.push({
+        description: "Number less likely to be " + i,
+        act: () => {
+          const index = this.state.numbers.findIndex(x => x === i)
+          if (index > -1) {
+            this.state.numbers.splice(index, 1);
+          }
+
+          console.log(this.state.numbers)
+
+        },
+      })
+    }
 
     this.prevTime = 0;
     this.items = [];
@@ -80,6 +132,10 @@ export class Game {
 
 
     this.state.score.innerText = '0'
+
+    for (let i = 0; i < 10; i++) {
+      this.numberQueue.push(new Number(this.state));
+    }
 
     this.started = true;
   }
@@ -169,12 +225,19 @@ export class Game {
       one: shopItem1,
       two: shopItem2,
       three: shopItem3,
+      four: {
+        description: "Number more likely to be 13",
+        act: () => {
+          this.state.numbers.push(13);
+        },
+      }
     };
 
     document.querySelector("body").style.cursor = "auto";
   }
 
-  shopShoice(choice) {
+  shopChoice(choice) {
+
     this.currentShop[choice].act();
 
     this.log.shop.push(this.currentShop[choice].description)
@@ -208,10 +271,7 @@ export class Game {
   }
 
   setLevel() {
-    this.numberIntervalValue = 1000;
-    this.numbersMax = 20;
 
-    this.numberInterval = this.numberIntervalValue;
 
     this.state.gameOver.style.display = "none";
     document.querySelector("body").style.cursor = "none";
@@ -221,9 +281,7 @@ export class Game {
 
     this.player = new Player(this.state);
 
-    for (let i = 0; i < 4; i++) {
-      this.numberQueue.push(new Number(this.state));
-    }
+
   }
 
   areRectanglesColliding(rect1, rect2) {
@@ -246,10 +304,6 @@ export class Game {
       let elapsedTime = timestamp - this.lastTime;
       this.lastTime = timestamp;
       this.accumulatedTime += elapsedTime;
-
-      if (this.accumulatedTime > 50) {
-        console.log(this.accumulatedTime, this.fixedTimeStep);
-      }
 
       while (this.accumulatedTime >= this.fixedTimeStep) {
         this.startField.update();
@@ -283,9 +337,13 @@ export class Game {
         this.accumulatedTime -= this.fixedTimeStep;
       }
 
-      this.numberInterval -= this.fixedTimeStep;
 
-      if (this.numberInterval <= 0) {
+      if (this.numberInterval > 0) {
+        if (this.numberQueue.length > 0) {
+          this.numberInterval -= elapsedTime;
+        }
+      }
+      else if (this.numberInterval <= 0) {
         if (this.numberQueue.length > 0) {
           if (
             this.items.filter((x) => x.type && x.type === "number").length <

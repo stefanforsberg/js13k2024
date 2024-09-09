@@ -5,81 +5,95 @@ export class Collector {
         this.collected = [];
 
         this.types = {
-            "+++": {
-                display: () => {
-                    this.state.collectors[1].innerText = "+";
-                    this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[3].innerText = "+";
-                    this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[5].innerText = "+";
-                    this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
-                },
-                sum: () => {
-                    return this.collected.slice(0, 4).reduce((p, c) => p + c.number, 0);
-                },
-                addItem: (item) => {
-                    this.collected.push(item);
-                    this.flashNumber(item, this.index);
-                    this.index += 2;
-                },
-            },
-            "++-": {
-                display: () => {
-                    this.state.collectors[1].innerText = "+";
-                    this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[3].innerText = "+";
-                    this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[5].innerText = "-";
-                    this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
-                },
-                sum: () => {
-                    return this.collected
-                        .slice(0, 4)
-                        .reduce((p, c, i) => p + c.number * (i === 3 ? -1 : 1), 0);
-                },
-                addItem: (item) => {
-                    this.collected.push(item);
-                    this.flashNumber(item, this.index);
+            // "+++": {
+            //     display: () => {
+            //         this.state.collectors[1].innerText = "+";
+            //         this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[3].innerText = "+";
+            //         this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[5].innerText = "+";
+            //         this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
+            //     },
+            //     sum: () => {
+            //         return this.collected.slice(0, 4).reduce((p, c) => p + c.number, 0);
+            //     },
+            //     addItem: (item) => {
+            //         this.collected.push(item);
+            //         this.flashNumber(item, this.index);
+            //         this.index += 2;
+            //     },
+            // },
+            // "++-": {
+            //     display: () => {
+            //         this.state.collectors[1].innerText = "+";
+            //         this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[3].innerText = "+";
+            //         this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[5].innerText = "-";
+            //         this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
+            //     },
+            //     sum: () => {
+            //         return this.collected
+            //             .slice(0, 4)
+            //             .reduce((p, c, i) => p + c.number * (i === 3 ? -1 : 1), 0);
+            //     },
+            //     addItem: (item) => {
+            //         this.collected.push(item);
+            //         this.flashNumber(item, this.index);
 
-                    this.index += 2;
-                },
-            },
-            ">": {
-                display: () => {
-                    this.state.collectors[1].innerText = "";
-                    this.state.collectors[1].style.backgroundColor = "var(--main-black)";
-                    this.state.collectors[3].innerText = ">";
-                    this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[5].innerText = "";
-                    this.state.collectors[5].style.backgroundColor = "var(--main-black)";
-                },
-                sum: () => {
-                    if (this.collected.length < 4) return 0;
+            //         this.index += 2;
+            //     },
+            // },
+            // ">": {
+            //     display: () => {
+            //         this.state.collectors[0].innerText = "";
+            //         this.state.collectors[0].style.backgroundColor = "var(--main-light)";
+            //         this.state.collectors[0].style.borderColor = "var(--main-light)";
+            //         this.state.collectors[1].innerText = "";
+            //         this.state.collectors[1].style.backgroundColor = "var(--main-light)";
+            //         this.state.collectors[3].innerText = ">";
+            //         this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[5].innerText = "";
+            //         this.state.collectors[5].style.backgroundColor = "var(--main-light)";
+            //         this.state.collectors[6].innerText = "";
+            //         this.state.collectors[6].style.backgroundColor = "var(--main-light)";
+            //         this.state.collectors[6].style.borderColor = "var(--main-light)";
+            //     },
+            //     sum: () => {
+            //         if (this.collected.length < 4) return 0;
 
-                    const a = parseInt(
-                        `${this.collected[0].number}${this.collected[1].number}`
-                    );
-                    const b = parseInt(
-                        `${this.collected[2].number}${this.collected[3].number}`
-                    );
+            //         const a = parseInt(
+            //             `${this.collected[0].number}${this.collected[1].number}`
+            //         );
+            //         const b = parseInt(
+            //             `${this.collected[2].number}${this.collected[3].number}`
+            //         );
 
-                    return a > b ? a - b : 0;
-                },
-                addItem: (item) => {
-                    this.collected.push(item);
-                    this.flashNumber(item, this.index);
+            //         return a > b ? a - b : 0;
+            //     },
+            //     addItem: (item) => {
+            //         if (this.index === 0 || this.index === 3) this.index++;
 
-                    this.index += 2;
-                },
-            },
+            //         this.collected.push(item);
+            //         this.flashNumber(item, this.index);
+
+            //         this.index += 1;
+            //     },
+            // },
             "<": {
                 display: () => {
+                    this.state.collectors[0].innerText = "";
+                    this.state.collectors[0].style.backgroundColor = "var(--main-light)";
+                    this.state.collectors[0].style.borderColor = "var(--main-light)";
                     this.state.collectors[1].innerText = "";
-                    this.state.collectors[1].style.backgroundColor = "var(--main-black)";
+                    this.state.collectors[1].style.backgroundColor = "var(--main-light)";
                     this.state.collectors[3].innerText = "<";
                     this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
                     this.state.collectors[5].innerText = "";
-                    this.state.collectors[5].style.backgroundColor = "var(--main-black)";
+                    this.state.collectors[5].style.backgroundColor = "var(--main-light)";
+                    this.state.collectors[6].innerText = "";
+                    this.state.collectors[6].style.backgroundColor = "var(--main-light)";
+                    this.state.collectors[6].style.borderColor = "var(--main-light)";
                 },
                 sum: () => {
                     if (this.collected.length < 4) return 0;
@@ -94,39 +108,41 @@ export class Collector {
                     return a < b ? b - a : 0;
                 },
                 addItem: (item) => {
+                    if (this.index === 0 || this.index === 3) this.index++;
+
                     this.collected.push(item);
                     this.flashNumber(item, this.index);
 
-                    this.index += 2;
+                    this.index += 1;
                 },
             },
-            ">>>": {
-                display: () => {
-                    this.state.collectors[1].innerText = ">";
-                    this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[3].innerText = ">";
-                    this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
-                    this.state.collectors[5].innerText = ">";
-                    this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
-                },
-                sum: () => {
-                    if (this.collected.length < 4) return 0;
+            // ">>>": {
+            //     display: () => {
+            //         this.state.collectors[1].innerText = ">";
+            //         this.state.collectors[1].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[3].innerText = ">";
+            //         this.state.collectors[3].style.backgroundColor = "var(--main-yellow)";
+            //         this.state.collectors[5].innerText = ">";
+            //         this.state.collectors[5].style.backgroundColor = "var(--main-yellow)";
+            //     },
+            //     sum: () => {
+            //         if (this.collected.length < 4) return 0;
 
-                    if (this.collected[0].number > this.collected[1].number &&
-                        this.collected[1].number > this.collected[2].number &&
-                        this.collected[2].number > this.collected[3].number) {
-                        return this.collected[0].number * this.collected[1].number;
-                    }
+            //         if (this.collected[0].number > this.collected[1].number &&
+            //             this.collected[1].number > this.collected[2].number &&
+            //             this.collected[2].number > this.collected[3].number) {
+            //             return this.collected[0].number * this.collected[1].number;
+            //         }
 
-                    return 0;
-                },
-                addItem: (item) => {
-                    this.collected.push(item);
-                    this.flashNumber(item, this.index);
+            //         return 0;
+            //     },
+            //     addItem: (item) => {
+            //         this.collected.push(item);
+            //         this.flashNumber(item, this.index);
 
-                    this.index += 2;
-                },
-            },
+            //         this.index += 2;
+            //     },
+            // },
         };
 
         this.typeKeys = Object.keys(this.types);
