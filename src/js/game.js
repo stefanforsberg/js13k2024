@@ -51,7 +51,9 @@ export class Game {
       shop: []
     }
 
-    this.shopOptions = [
+    this.shopOptions = {}
+
+    this.shopOptions.misc = [
       {
         description: "Numbers move more quickly",
         act: () => {
@@ -63,7 +65,10 @@ export class Game {
         act: () => {
           this.state.numbersBounce++;
         },
-      },
+      }
+    ]
+
+    this.shopOptions.numbers = [
       {
         description: "Numbers more likely to be even",
         act: () => {
@@ -90,7 +95,7 @@ export class Game {
     ];
 
     for (let i = 1; i <= 12; i++) {
-      this.shopOptions.push({
+      this.shopOptions.numbers.push({
         description: "Number more likely to be " + i,
         act: () => {
           this.state.numbers.push(i);
@@ -99,7 +104,7 @@ export class Game {
     }
 
     for (let i = 1; i <= 12; i++) {
-      this.shopOptions.push({
+      this.shopOptions.numbers.push({
         description: "Number less likely to be " + i,
         act: () => {
           const index = this.state.numbers.findIndex(x => x === i)
@@ -112,6 +117,70 @@ export class Game {
         },
       })
     }
+
+    // state.handScores = {
+    //   FOAK: ["FOAK", 100],
+    //   TOAK: ["TOAK", 30],
+    //   TWOPAIR: ["TWO PAIRS", 10],
+    //   PAIR: ["PAIR", 10],
+    //   STRAIGHT: ["STRAIGHT", 75],
+    //   COLOR: 3,
+    // };
+
+    this.shopOptions.hands = [
+      {
+        description: "Increase multiplier of pair",
+        act: () => {
+          this.state.handScores.PAIR[1] *= 1.1;
+        },
+      },
+      {
+        description: "Increase multiplier of two pairs",
+        act: () => {
+          this.state.handScores.TWOPAIR[1] *= 1.1;
+        },
+      },
+      {
+        description: "Increase multiplier of straight",
+        act: () => {
+          this.state.handScores.STRAIGHT[1] *= 1.1;
+        },
+      },
+      {
+        description: "Increase multiplier of three of a kind",
+        act: () => {
+          this.state.handScores.TOAK[1] *= 1.1;
+        },
+      },
+      {
+        description: "Increase multiplier of four of a kind",
+        act: () => {
+          this.state.handScores.FOAK[1] *= 1.1;
+        },
+      },
+      {
+        description: "Increase multiplier of same color hand",
+        act: () => {
+          this.state.handScores.COLOR *= 1.5;
+        },
+      },
+    ]
+
+    this.shopOptions.mixed = [
+      {
+        description: "Number more likely to be 13",
+        act: () => {
+          this.state.numbers.push(13);
+        },
+      },
+      {
+        description: "Gain 1 life and number more likely to be 13",
+        act: () => {
+          this.state.numbers.push(13);
+          this.player.lives = Math.min(this.player.lives + 1, 4)
+        },
+      }
+    ]
 
     this.prevTime = 0;
     this.items = [];
@@ -210,27 +279,25 @@ export class Game {
     this.started = false;
 
     const shopItem1 =
-      this.shopOptions[Math.floor(Math.random() * this.shopOptions.length)];
+      this.shopOptions.misc[Math.floor(Math.random() * this.shopOptions.misc.length)];
     const shopItem2 =
-      this.shopOptions[Math.floor(Math.random() * this.shopOptions.length)];
+      this.shopOptions.numbers[Math.floor(Math.random() * this.shopOptions.numbers.length)];
     const shopItem3 =
-      this.shopOptions[Math.floor(Math.random() * this.shopOptions.length)];
+      this.shopOptions.hands[Math.floor(Math.random() * this.shopOptions.hands.length)];
+    const shopItem4 =
+      this.shopOptions.mixed[Math.floor(Math.random() * this.shopOptions.mixed.length)];
 
     this.state.shop.style.display = "grid";
     this.state.shop1.innerText = shopItem1.description;
     this.state.shop2.innerText = shopItem2.description;
     this.state.shop3.innerText = shopItem3.description;
+    this.state.shop4.innerText = shopItem4.description;
 
     this.currentShop = {
       one: shopItem1,
       two: shopItem2,
       three: shopItem3,
-      four: {
-        description: "Number more likely to be 13",
-        act: () => {
-          this.state.numbers.push(13);
-        },
-      }
+      four: shopItem4
     };
 
     document.querySelector("body").style.cursor = "auto";
