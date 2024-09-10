@@ -1,12 +1,12 @@
 import CPlayer from "./player"
-import { mainTheme } from "./song";
+import { mainTheme, sfxHit, gameOver } from "./song";
 
 export default class Sounds {
     constructor() {
 
         this.player = new CPlayer();
 
-        this.soundsLoading = [mainTheme]
+        this.soundsLoading = [mainTheme, sfxHit, gameOver]
         this.sounds = [];
         this.currentlyLoadingIndex = 0;
 
@@ -49,40 +49,12 @@ export default class Sounds {
         this.sounds[i].play();
     }
 
-    sfx(i) {
-        this.sounds[i].play();
+    stopSong(i) {
+        this.sounds[i].pause();
+        this.sounds[i].currentTime = 0;
     }
 
-    fade(i1, i2) {
-
-        if (this.intervalID) {
-            clearInterval(this.intervalID);
-        }
-
-        this.sounds[i1].play();
-
-        this.intervalID = setInterval(() => {
-            if (this.sounds[i1].volume < 0.5) {
-                let vol = this.sounds[i1].volume + 0.05;
-
-                if (vol > 0.5) {
-                    vol = 0.5;
-                }
-
-                this.sounds[i1].volume = vol.toFixed(2);
-
-                if (this.sounds[i2].volume > 0) {
-                    let vol2 = (0.5 - vol);
-                    if (vol2 < 0) {
-                        vol2 = 0;
-                    }
-
-                    this.sounds[i2].volume = vol2.toFixed(2)
-                }
-            } else {
-                clearInterval(this.intervalID);
-                this.intervalID = undefined;
-            }
-        }, 300);
+    sfx(i) {
+        this.sounds[i].play();
     }
 }

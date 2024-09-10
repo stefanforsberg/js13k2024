@@ -8,11 +8,7 @@ export class Player {
     this.height = (40 * this.state.scaleFactor) >> 0;
     this.rot = 0;
     this.color;
-    this.lives = 1;
-    this.currentCollected = 0;
-    this.discarding = false;
-    this.discardLeftValue = 3000;
-    this.discardLeft = this.discardLeftValue;
+
 
     this.state.body.addEventListener("mousemove", (event) => {
       this.x = event.clientX;
@@ -20,7 +16,6 @@ export class Player {
     });
 
     this.state.body.addEventListener("click", (event) => {
-      console.log(state.game, state.game.started);
       if (!state.game || !state.game.started) return;
 
       if (this.discarding) {
@@ -32,6 +27,15 @@ export class Player {
 
     this.state.eventEmitter.on("playerNewSum", this.collected.bind(this));
     this.state.eventEmitter.on("thirteen", this.thirteen.bind(this));
+
+  }
+
+  reset() {
+    this.lives = 4;
+    this.currentCollected = 0;
+    this.discarding = false;
+    this.discardLeftValue = 3000;
+    this.discardLeft = this.discardLeftValue;
   }
 
   getCollisionRect() {

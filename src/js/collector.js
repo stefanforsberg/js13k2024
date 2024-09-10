@@ -172,12 +172,16 @@ export class Collector {
         this.state.collectors[index].style.backgroundColor = `rgb(${item.color})`;
     }
 
-    level1() {
+    level1(levelsCompleted) {
         this.index = 0;
         this.collected = [];
 
-        this.currentType =
-            this.typeKeys[Math.floor(Math.random() * this.typeKeys.length)];
+        if (levelsCompleted === 0) {
+            this.currentType = "+++";
+        } else {
+            this.currentType =
+                this.typeKeys[Math.floor(Math.random() * this.typeKeys.length)];
+        }
 
         for (const collector of this.state.collectors) {
             collector.innerText = "";
@@ -220,12 +224,16 @@ export class Collector {
     }
 
     addItem(item, elapsed) {
+
+        this.state.sounds.sfx(1)
+
         this.types[this.currentType].addItem(item);
 
         let sum = this.types[this.currentType].sum();
 
         if (item.number === 13 || sum === 13) {
             this.state.eventEmitter.emit("thirteen");
+            this.state.eventEmitter.emit("playerNewSum", 0);
 
             this.level1();
         }

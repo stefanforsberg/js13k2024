@@ -6,8 +6,6 @@ export class Number {
     this.height = this.width;
 
     this.type = "number";
-
-    this.colors = ["255, 61, 109", "253, 140, 44", "60, 252, 140"];
   }
 
   reset() {
@@ -43,11 +41,20 @@ export class Number {
     this.number =
       this.state.numbers[(Math.random() * this.state.numbers.length) >> 0];
 
-    this.color = this.colors[(Math.random() * this.colors.length) >> 0];
+    this.color = this.state.colors[(Math.random() * this.state.colors.length) >> 0];
   }
 
   getCenter() {
     return [this.x + this.width / 2, this.y + this.height / 2];
+  }
+
+  punishment() {
+    this.oldNumber = this.number;
+    this.number = 13;
+  }
+
+  repent() {
+    this.number = this.oldNumber;
   }
 
   update(deltaTime) {

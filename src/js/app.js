@@ -51,6 +51,7 @@ const load = () => {
         STRAIGHT: ["STRAIGHT", 75],
         COLOR: 3,
       };
+      state.colors = ["255, 61, 109", "253, 140, 44", "60, 252, 140"];
     },
   };
 
@@ -81,7 +82,7 @@ const load = () => {
     state.gameStart.style.display = "block";
   });
 
-  document.querySelector("#game-start a").addEventListener("click", (event) => {
+  document.querySelector("#game-start").addEventListener("click", (event) => {
     event.stopPropagation();
     const game = new Game(state);
     game.setLevel();

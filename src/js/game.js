@@ -26,6 +26,10 @@ export class Game {
     this.randomLines = new RandomLines(this.state);
     this.startField = new StarField(this.state);
 
+    this.collector = new Collector(this.state);
+    this.player = new Player(this.state);
+
+
     this.state.eventEmitter.on("death", this.death.bind(this));
     this.state.eventEmitter.on("finishedLevel", this.finishedLevel.bind(this));
     this.state.eventEmitter.on("colorBonus", this.colorBonus.bind(this));
@@ -34,15 +38,27 @@ export class Game {
 
     this.state.eventEmitter.on("shopChoice", this.shopChoice.bind(this));
 
-    this.state.sounds.playSong(0);
+
 
     this.reset();
   }
 
   reset() {
 
+    this.levelsCompleted = 0;
+
+    this.state.gameOver.style.display = "none";
+    document.querySelector("body").style.cursor = "none";
+
+    this.collector.level1(this.levelsCompleted);
+
+    this.player.reset();
+
+    this.state.sounds.playSong(0);
+
+
     this.numberIntervalValue = 2000;
-    this.numbersMax = 20;
+    this.numbersMax = 10;
 
     this.numberInterval = this.numberIntervalValue;
 
@@ -55,15 +71,27 @@ export class Game {
 
     this.shopOptions.misc = [
       {
-        description: "Numbers move more quickly",
-        act: () => {
-          this.state.numbersSpeed *= 1.1;
-        },
-      },
-      {
         description: "Numbers bounce one more time",
         act: () => {
           this.state.numbersBounce++;
+        },
+      },
+      {
+        description: "Numbers more likely to be pink",
+        act: () => {
+          this.state.colors.push("255, 61, 109");
+        },
+      },
+      {
+        description: "Numbers more likely to be orange",
+        act: () => {
+          this.state.colors.push("253, 140, 44");
+        },
+      },
+      {
+        description: "Numbers more likely to be green",
+        act: () => {
+          this.state.colors.push("60, 252, 140");
         },
       }
     ]
@@ -111,21 +139,9 @@ export class Game {
           if (index > -1) {
             this.state.numbers.splice(index, 1);
           }
-
-          console.log(this.state.numbers)
-
         },
       })
     }
-
-    // state.handScores = {
-    //   FOAK: ["FOAK", 100],
-    //   TOAK: ["TOAK", 30],
-    //   TWOPAIR: ["TWO PAIRS", 10],
-    //   PAIR: ["PAIR", 10],
-    //   STRAIGHT: ["STRAIGHT", 75],
-    //   COLOR: 3,
-    // };
 
     this.shopOptions.hands = [
       {
@@ -255,6 +271,10 @@ export class Game {
   }
 
   death() {
+
+    this.state.sounds.stopSong(0);
+    this.state.sounds.sfx(2);
+
     document.querySelector("body").style.cursor = "auto";
 
     const hands = this.log.hands.map(h => `${h}<br>`).join("")
@@ -314,11 +334,36 @@ export class Game {
   }
 
   finishedLevel(score, log) {
+
+    if (score === 0) {
+
+      for (const n of this.items.filter(x => x.type === "number")) {
+        n.punishment();
+
+        setTimeout(() => {
+          n.repent();
+        }, 6000)
+      }
+
+
+
+      return;
+    }
+
     this.levelStarted = 0;
 
     this.log.hands.push(log)
 
-    this.showShop();
+    this.levelsCompleted++;
+
+    if (this.levelsCompleted % 3 === 0) {
+
+      this.numberIntervalValue = Math.max(100, this.numberIntervalValue - 10);
+      this.numbersMax++;
+      this.state.numbersSpeed *= 1.05;
+
+      this.showShop();
+    }
 
     this.score += score;
     this.state.score.innerText = `${this.score}`;
@@ -340,13 +385,7 @@ export class Game {
   setLevel() {
 
 
-    this.state.gameOver.style.display = "none";
-    document.querySelector("body").style.cursor = "none";
 
-    this.collector = new Collector(this.state);
-    this.collector.level1();
-
-    this.player = new Player(this.state);
 
 
   }
