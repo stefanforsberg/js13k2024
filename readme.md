@@ -39,11 +39,15 @@ Todo:
 - [x] restart a game overed game, all perks resets
 - [x] loading
 - [x] start game button
-- [ ] high score
-  - [ ] highest combo
+- [x] high score
+  - [x] highest combo
 - [x] When completing a level, randomly choose next mode for next level
 - [x] Abstract multipliers/scores for completing a level to make it easier to change them with powerups/curses
 - [x] Extract the numbers that can be generated and their respective odds
 - [x] log of all hands and their score
 - [x] log of "build"
 - [ ] score balance
+- [x] persist max score and max combo
+- [x] screen shake
+- [ ] investigate why player score (in the square) sometimes is not reset to 0 after a winning/failed hand?
+- [x] make player not collidable for 300ms after clicking shop item

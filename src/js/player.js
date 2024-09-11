@@ -61,19 +61,6 @@ export class Player {
         this.discardLeft = Math.min(this.discardLeft, this.discardLeftValue)
       }
     }
-
-    // if (this.discardLeft < 0) {
-    //   this.discarding = false;
-    //   this.discardLeft = 0;
-    // } else if (!this.canUseDiscard) {
-    //   this.canUseDiscardLeftValue += elapsed * 500;
-
-    //   if (this.canUseDiscardLeftValue >= this.discardLeftValue) {
-    //     this.canUseDiscard = true;
-    //     this.canUseDiscardLeftValue = 0;
-    //     this.discardLeft = this.discardLeftValue;
-    //   }
-    // }
   }
 
   thirteen() {

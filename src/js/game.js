@@ -21,20 +21,20 @@ export class Game {
     this.state = state;
     this.mouseX = 0;
     this.mouseY = 0;
-    this.score = 0;
 
     this.randomLines = new RandomLines(this.state);
-    this.startField = new StarField(this.state);
+    this.starField = new StarField(this.state);
 
     this.collector = new Collector(this.state);
     this.player = new Player(this.state);
-
 
     this.state.eventEmitter.on("death", this.death.bind(this));
     this.state.eventEmitter.on("finishedLevel", this.finishedLevel.bind(this));
     this.state.eventEmitter.on("colorBonus", this.colorBonus.bind(this));
     this.state.eventEmitter.on("handBonus", this.handBonus.bind(this));
     this.state.eventEmitter.on("timeBonus", this.timeBonus.bind(this));
+    this.state.eventEmitter.on("thirteen", this.thirteen.bind(this));
+
 
     this.state.eventEmitter.on("shopChoice", this.shopChoice.bind(this));
 
@@ -45,7 +45,15 @@ export class Game {
 
   reset() {
 
+    this.score = 0;
+
+    this.screenShake = false;
+
+    this.isPlayerCollidable = 0;
+
     this.levelsCompleted = 0;
+
+    this.bestRoundCombo = 0;
 
     this.state.gameOver.style.display = "none";
     document.querySelector("body").style.cursor = "none";
@@ -207,7 +215,7 @@ export class Game {
     this.levelStarted = 0;
 
     this.randomLines.reset();
-    this.startField.reset();
+    this.starField.reset();
 
     this.state.canvas.style.opacity = 1;
     this.state.startfieldCanvas.style.opacity = 1;
@@ -223,6 +231,12 @@ export class Game {
     }
 
     this.started = true;
+  }
+
+  thirteen() {
+    this.screenShake = true;
+
+    setTimeout(() => { this.screenShake = false }, 300);
   }
 
   colorBonus() {
@@ -280,7 +294,27 @@ export class Game {
     const hands = this.log.hands.map(h => `${h}<br>`).join("")
     const shops = this.log.shop.map(s => `${s}<br>`).join("")
 
-    this.state.gameOverText.innerHTML = `Your score is ${this.score}.<br/>Click to try again.`
+    let gameOverText = '';
+
+    let loadedScore = this.state.load();
+
+    if (this.score > loadedScore.score) {
+      gameOverText += `<p>Your score is ${this.score}, this is a new record!<p>`
+      loadedScore.score = this.score;
+    } else {
+      gameOverText += `<p>Your score is ${this.score}, not quite as high as ${loadedScore.score}.</p>`
+    }
+
+    if (this.bestRoundCombo > loadedScore.combo) {
+      gameOverText += `<p>Your best combo is ${this.bestRoundCombo}, this is a new record!<p>`
+      loadedScore.combo = this.bestRoundCombo;
+    } else {
+      gameOverText += `<p>Your best combo is ${this.bestRoundCombo}, not quite as high as ${loadedScore.combo}.</p>`
+    }
+
+    this.state.save(loadedScore.score, loadedScore.combo);
+
+    this.state.gameOverText.innerHTML = gameOverText + "<br/>Click to try again.";
 
     this.state.gameOverStat.innerHTML = `<div>${hands}</div><div>${shops}</div>`;
 
@@ -331,6 +365,8 @@ export class Game {
 
     this.started = true;
     this.state.shop.style.display = "none";
+
+    this.isPlayerCollidable = 300;
   }
 
   finishedLevel(score, log) {
@@ -345,10 +381,10 @@ export class Game {
         }, 6000)
       }
 
-
-
       return;
     }
+
+    this.bestRoundCombo = Math.max(this.bestRoundCombo, score);
 
     this.levelStarted = 0;
 
@@ -361,6 +397,7 @@ export class Game {
       this.numberIntervalValue = Math.max(100, this.numberIntervalValue - 10);
       this.numbersMax++;
       this.state.numbersSpeed *= 1.05;
+      this.numberQueue.push(new Number(this.state));
 
       this.showShop();
     }
@@ -382,14 +419,6 @@ export class Game {
     );
   }
 
-  setLevel() {
-
-
-
-
-
-  }
-
   areRectanglesColliding(rect1, rect2) {
     return (
       rect1.x < rect2.x + rect2.width &&
@@ -400,6 +429,7 @@ export class Game {
   }
 
   draw(timestamp) {
+
     if (this.started) {
       let elapsed = timestamp - this.prevTime;
 
@@ -411,13 +441,18 @@ export class Game {
       this.lastTime = timestamp;
       this.accumulatedTime += elapsedTime;
 
+      if (this.isPlayerCollidable > 0) {
+        this.isPlayerCollidable = Math.max(0, this.isPlayerCollidable - elapsedTime);
+      }
+
       while (this.accumulatedTime >= this.fixedTimeStep) {
-        this.startField.update();
+        this.starField.update();
 
         for (const item of this.items) {
           item.update(this.deltaTime);
 
           if (
+            this.isPlayerCollidable === 0 &&
             item.alive &&
             item.type === "number" &&
             this.areRectanglesColliding(item, this.player.getCollisionRect())
@@ -444,6 +479,8 @@ export class Game {
       }
 
 
+
+
       if (this.numberInterval > 0) {
         if (this.numberQueue.length > 0) {
           this.numberInterval -= elapsedTime;
@@ -465,7 +502,13 @@ export class Game {
 
       this.state.ctx.clearRect(0, 0, this.state.width, this.state.height);
 
-      this.startField.draw(this.state.startfieldCtx);
+      this.state.ctx.save();
+
+      if (this.screenShake) {
+        this.state.ctx.translate(-20 + 40 * Math.random(), -20 + 40 * Math.random());
+      }
+
+      this.starField.draw(this.state.startfieldCtx);
 
       this.randomLines.draw(this.state.ctx, elapsed);
 
@@ -474,6 +517,8 @@ export class Game {
       }
 
       this.player.draw(this.state.ctx);
+
+      this.state.ctx.restore();
     } else {
       this.prevTime = timestamp;
       this.lastTime = timestamp;

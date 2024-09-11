@@ -74,7 +74,7 @@ export class Collector {
 
                     if (b === 13) return b;
 
-                    return a > b ? a - b : 0;
+                    return a > b ? (a * 2 / b >> 0) : 0;
                 },
                 addItem: (item) => {
                     if (this.index === 0 || this.index === 3) this.index++;
@@ -115,7 +115,7 @@ export class Collector {
 
                     if (b === 13) return b;
 
-                    return a < b ? b - a : 0;
+                    return a < b ? (b * 2 / a >> 0) : 0;
                 },
                 addItem: (item) => {
                     if (this.index === 0 || this.index === 3) this.index++;

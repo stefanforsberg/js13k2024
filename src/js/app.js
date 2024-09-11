@@ -53,6 +53,17 @@ const load = () => {
       };
       state.colors = ["255, 61, 109", "253, 140, 44", "60, 252, 140"];
     },
+    load: () => {
+      const d = localStorage.getItem("sf.itaddsup.data");
+      if (d) {
+        return JSON.parse(d);
+      } else {
+        return { score: 0, combo: 0 }
+      }
+    },
+    save: (score, combo) => {
+      localStorage.setItem("sf.itaddsup.data", JSON.stringify({ score, combo }));
+    }
   };
 
   state.reset();
@@ -79,17 +90,21 @@ const load = () => {
 
   state.sounds.load(() => {
     state.gameLoading.style.display = "none";
+
+    const d = state.load();
+
+    state.gameStart.querySelector(".instruction").innerHTML = `<h2>Click to start</h2><p>High score: ${d.score}</p><p>Best combo: ${d.combo}</p>`
+
     state.gameStart.style.display = "block";
   });
 
   document.querySelector("#game-start").addEventListener("click", (event) => {
     event.stopPropagation();
     const game = new Game(state);
-    game.setLevel();
+    game.reset();
     state.gameStart.style.display = "none";
     state.game = game;
-
-    requestAnimationFrame((ticks) => game.draw(ticks));
+    game.draw(0);
   });
 
   document.querySelector("#game-over").addEventListener("click", (event) => {
@@ -97,7 +112,6 @@ const load = () => {
     state.reset();
     state.game.reset();
     state.gameOver.style.display = "none";
-    state.game.setLevel();
   });
 
   const resizeCanvas = () => {
