@@ -27,11 +27,11 @@ Todo:
 - [x] Max 20 numbers on the screen at a time
 - [x] Better score display
 - [x] Adding upside / downside powerups
-  - [ ] Increase life by one
+  - [x] Increase life by one
   - [ ] Numbers are hidden/shown on some time interval
-  - [ ] More color1/color2/color3
-  - [ ] More 13
-  - [ ] Increase multiplier of various hands
+  - [x] More color1/color2/color3
+  - [x] More 13
+  - [x] Increase multiplier of various hands
 - [x] song
 - [ ] sfx
 - [x] better purple color for numbers
@@ -46,3 +46,4 @@ Todo:
 - [x] Extract the numbers that can be generated and their respective odds
 - [x] log of all hands and their score
 - [x] log of "build"
+- [ ] score balance
