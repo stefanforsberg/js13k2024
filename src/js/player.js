@@ -69,6 +69,8 @@ export class Player {
     if (this.lives === 0) {
       this.state.eventEmitter.emit("death");
     }
+
+    this.currentCollected = 0;
   }
 
   collected(sum) {
