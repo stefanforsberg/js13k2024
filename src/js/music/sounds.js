@@ -1,12 +1,12 @@
 import CPlayer from "./player"
-import { mainTheme, sfxHit, gameOver } from "./song";
+import { mainTheme, sfxHit, gameOver, shopSong } from "./song";
 
 export default class Sounds {
     constructor() {
 
         this.player = new CPlayer();
 
-        this.soundsLoading = [mainTheme, sfxHit, gameOver]
+        this.soundsLoading = [mainTheme, sfxHit, gameOver, shopSong]
         this.sounds = [];
         this.currentlyLoadingIndex = 0;
 
@@ -49,8 +49,12 @@ export default class Sounds {
         this.sounds[i].play();
     }
 
-    stopSong(i) {
+    pauseSong(i) {
         this.sounds[i].pause();
+    }
+
+    stopSong(i) {
+        this.pauseSong(i)
         this.sounds[i].currentTime = 0;
     }
 

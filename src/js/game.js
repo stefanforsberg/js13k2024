@@ -332,6 +332,9 @@ export class Game {
   showShop() {
     this.started = false;
 
+    this.state.sounds.pauseSong(0);
+    this.state.sounds.playSong(3);
+
     const shopItem1 =
       this.shopOptions.misc[Math.floor(Math.random() * this.shopOptions.misc.length)];
     const shopItem2 =
@@ -362,6 +365,9 @@ export class Game {
     this.currentShop[choice].act();
 
     this.log.shop.push(this.currentShop[choice].description)
+
+    this.state.sounds.pauseSong(3);
+    this.state.sounds.playSong(0);
 
     this.started = true;
     this.state.shop.style.display = "none";
