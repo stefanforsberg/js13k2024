@@ -62,11 +62,13 @@ export class Game {
 
     this.player.reset();
 
-    this.state.sounds.playSong(0);
+    this.state.sounds.playSong(0, 1);
+    this.state.sounds.playSong(3);
 
 
-    this.numberIntervalValue = 2000;
-    this.numbersMax = 10;
+
+    this.numberIntervalValue = 1500;
+    this.numbersMax = 20;
 
     this.numberInterval = this.numberIntervalValue;
 
@@ -332,8 +334,7 @@ export class Game {
   showShop() {
     this.started = false;
 
-    this.state.sounds.pauseSong(0);
-    this.state.sounds.playSong(3);
+    this.state.sounds.fade(3, 0);
 
     const shopItem1 =
       this.shopOptions.misc[Math.floor(Math.random() * this.shopOptions.misc.length)];
@@ -366,8 +367,7 @@ export class Game {
 
     this.log.shop.push(this.currentShop[choice].description)
 
-    this.state.sounds.pauseSong(3);
-    this.state.sounds.playSong(0);
+    this.state.sounds.fade(0, 3);
 
     this.started = true;
     this.state.shop.style.display = "none";
@@ -400,7 +400,7 @@ export class Game {
 
     if (this.levelsCompleted % 3 === 0) {
 
-      this.numberIntervalValue = Math.max(100, this.numberIntervalValue - 10);
+      this.numberIntervalValue = Math.max(100, this.numberIntervalValue - 15);
       this.numbersMax++;
       this.state.numbersSpeed *= 1.05;
       this.numberQueue.push(new Number(this.state));

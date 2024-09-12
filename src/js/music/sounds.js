@@ -43,9 +43,9 @@ export default class Sounds {
         }
     }
 
-    playSong(i) {
+    playSong(i, volume = 0) {
         this.sounds[i].loop = true;
-        this.sounds[i].volume = 1.0;
+        this.sounds[i].volume = volume;
         this.sounds[i].play();
     }
 
@@ -60,5 +60,38 @@ export default class Sounds {
 
     sfx(i) {
         this.sounds[i].play();
+    }
+
+    fade(i1, i2) {
+
+        if (this.intervalID) {
+            clearInterval(this.intervalID);
+        }
+
+        this.sounds[i1].play();
+
+        this.intervalID = setInterval(() => {
+            if (this.sounds[i1].volume < 0.9) {
+                let vol = this.sounds[i1].volume + 0.1;
+
+                if (vol > 0.9) {
+                    vol = 0.9;
+                }
+
+                this.sounds[i1].volume = vol.toFixed(2);
+
+                if (this.sounds[i2].volume > 0) {
+                    let vol2 = (0.9 - vol);
+                    if (vol2 < 0) {
+                        vol2 = 0;
+                    }
+
+                    this.sounds[i2].volume = vol2.toFixed(2)
+                }
+            } else {
+                clearInterval(this.intervalID);
+                this.intervalID = undefined;
+            }
+        }, 100);
     }
 }

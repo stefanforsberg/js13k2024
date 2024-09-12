@@ -34,7 +34,7 @@ Color scheme from Factory records flyers (https://i.etsystatic.com/13763269/r/il
   - [x] More 13
   - [x] Increase multiplier of various hands
 - [x] song
-- [ ] sfx
+- [x] sfx
 - [x] better purple color for numbers
 - [x] game over screen
 - [x] restart a game overed game, all perks resets
